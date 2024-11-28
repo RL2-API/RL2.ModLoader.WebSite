@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Mods</title>
+	<link rel="stylesheet" href="styles/mods.css">
+	<link rel="stylesheet" href="styles/common.css">
+	<link rel="stylesheet" href="styles/links.css">
+	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=JetBrains Mono'>
+</head>
+	
+<body class="background base-layout">
+	<nav class="navbar">
+		|
+		<div class="navbar-element">
+			<a href="https://github.com/RL2-API/RL2.ModLoader/releases/latest" class="link">
+				<h2>Download</h2>
+			</a>
+		</div>
+		|
+		<div class="navbar-element">
+			<img src="https://raw.githubusercontent.com/RL2-API/RL2.ModLoader/main/Assets/ModLoaderIcon-NoText-700x700.png" width="50"/>
+			&ensp;&ensp;
+			<a href="/" class="link">
+				<h2>RL2.ModLoader</h2>
+			</a>
+		</div>
+		|
+		<div class="navbar-element">
+			<a href="/mods/" class="link">
+				<h2>Mods</h2>
+			</a>
+		</div>
+		|
+	</nav>
+
+	<main class="width-full base-layout" id="mod-list">
+
+	</main>
+</body>
+</html>
+
+<!-- Delete later -->
+<script type="module">
+
+// SolidJS
+import { onCleanup, createSignal, For } from "https://esm.sh/solid-js";
+import { render } from "https://esm.sh/solid-js/web";
+import h from "https://esm.sh/solid-js/h";
+import html from "https://esm.sh/solid-js/html";
+// Database
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2"
+
+
+const db = createClient(
+  "https://dvudfrlwjgbsjkdaukms.supabase.co",
+	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2dWRmcmx3amdic2prZGF1a21zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI3Mzk2NzEsImV4cCI6MjA0ODMxNTY3MX0.Cfe5r9UsiwbDB75oa8RZQpXBKGgyQ9wLH6HgqDO-3cA"	
+);
+
+const ModList = () => {
+	const [data, setData] = createSignal([]);
+
+	async function fetch() {
+		const { data, error } = await db.from("shortinfo").select("name, version:version.max(), description, author, icon_src");
+		if (!error) {
+			setData(data);
+		} else {
+			console.log(error);
+		}
+	}
+
+	fetch();
+	
+	return h(For, { each: () => data() },
+		(item) => html`
+			<article class="mod margin-10">
+				<div class="icon marginless paddingless">
+					<img src="${item.icon_src}" class="icon"/>
+				</div>
+
+				<div class="details width-full" onClick=${(e) => {
+					window.location = '/mod.html?name=' + item.name;
+					console.log("redirecting to " + '/mod?name=' + item.name);
+				}}>
+					<div class="title">
+						<p class="size-big marginless margin-sides-10">${item.name}</p>
+						<p class="width-full left-aligned margin-10">by ${item.author}</p>
+					</div>
+					
+					<div class="description left-aligned margin-sides-10">
+						${item.description}
+					</div>
+				<div>
+			</article>
+		`
+	);
+};
+	
+render(ModList, document.getElementById("mod-list"));
+
+</script>
