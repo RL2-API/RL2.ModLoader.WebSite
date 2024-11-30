@@ -2,42 +2,74 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Mods</title>
+	<link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/RL2-API/RL2.ModLoader/main/Assets/ModLoaderIcon-NoText-700x700.png">
 	<link rel="stylesheet" href="styles/mods.css">
 	<link rel="stylesheet" href="styles/common.css">
 	<link rel="stylesheet" href="styles/links.css">
 	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=JetBrains Mono'>
 </head>
-	
 <body class="background base-layout">
-	<nav class="navbar margin-bottom-20-scalable">
-		|
-		<div class="navbar-element">
-			<a href="https://github.com/RL2-API/RL2.ModLoader/releases/latest" class="link">
-				<h2>Download</h2>
-			</a>
-		</div>
-		|
-		<div class="navbar-element">
-			<img src="https://raw.githubusercontent.com/RL2-API/RL2.ModLoader/main/Assets/ModLoaderIcon-NoText-700x700.png" class="icon-small"/>
-			&ensp;&ensp;
-			<a href="/" class="link">
-				<h2>RL2.ModLoader</h2>
-			</a>
-		</div>
-		|
-		<div class="navbar-element">
-			<a href="/mods/" class="link">
-				<h2>Mods</h2>
-			</a>
-		</div>
-		|
-	</nav>
 
-	<main class="width-full">
-		<div class="width-full base-layout" id="mod-list"></div>
-	</main>
+<nav class="navbar margin-bottom-20-scalable">
+	|
+	<div class="navbar-element">
+		<a href="https://github.com/RL2-API/RL2.ModLoader/releases/latest" class="link">
+			<h2>Download</h2>
+		</a>
+	</div>
+	|
+	<div class="navbar-element">
+		<img src="https://raw.githubusercontent.com/RL2-API/RL2.ModLoader/main/Assets/ModLoaderIcon-NoText-700x700.png" class="icon-small"/>
+		&ensp;&ensp;
+		<a href="/" class="link">
+			<h2>RL2.ModLoader</h2>
+		</a>
+	</div>
+	|
+	<div class="navbar-element">
+		<a href="/mods/" class="link">
+			<h2>Mods</h2>
+		</a>
+	</div>
+	|
+</nav>
+
+<!-- Main content -->
+<main class="width-full">
+	<div class="width-full base-layout" id="mod-list"></div>
+</main>
+
+<!-- Footer -->
+<footer>
+	<!-- Socials and shit -->
+	<hr class="width-250"/>
+	How to find us: <br>
+
+	<!-- YouTube channel -->
+	<a href="https://www.youtube.com/channel/UChKqsjhVlw6D7Wn03FCcmHg" class="accented youtube-link link">
+		Taco
+	</a>
+	&ensp;|&ensp;
+
+	<!-- GitHub account -->
+	<a href="https://www.github.com/RL2-API" class="accented github-link link">
+		RL2.API
+	</a>
+	&ensp;|&ensp;
+
+	<a href="/" class="accented website-link link">
+		Website
+	</a>
+	&ensp;|&ensp;
+
+	<a href="https://discord.com/invite/cellardoorgames" class="accented discord-link link">
+		CDG Discord server
+	</a>
+</footer>
+
 </body>
 </html>
 
@@ -78,7 +110,7 @@ const ModList = () => {
 		}} class='search'/>
 		</div>
 
-		<${For} each=${() => search().length == 0 ? data() : filtered()}>
+		<${For} each=${() => search().length == 0 ? data() : filtered()} fallback=${html`<h2 class='loading'>Loading...</h2>`}>
 			${(item) => html`
 				<article class="mod margin-5-scalable" onClick=${(e) => window.location = '/mod?name=' + item.name }>
 					<div class="icon paddingless margin-10-scalable">

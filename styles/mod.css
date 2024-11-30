@@ -1,4 +1,5 @@
 .mod-info {
+	width: 90%;
 	display: flex;
 	flex-direction: row;
 	text-align: center;
@@ -7,18 +8,51 @@
 }
 
 .mod-plaque {
-	width: 10%;
+	width: 15%;
+	background-color: var(--primary);
 }
 
 
 .mod-info > div {
+	border-radius: 1em;
+	box-shadow: .2em .2em #0A0A0A;
 	background-color: var(--primary);
 }
 
 .version-store {
-	width: 10%;
+	width: 15%;
+	line-height: 2.5em;
+}
+
+.version {
+	padding: 0 0 0 1em;
+	text-align: left;
 }
 
 .version:hover {
+	border-radius: 1vw;
 	background-color: var(--highlight);
+}
+
+.btn-group {
+	margin: 0 .5em;
+}
+
+.btn-group .button {
+  background-color: #04AA6D; /* Green */
+  border: 0.1em solid green;
+  color: white;
+  padding: 0 1em;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.btn-group .button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+
+.btn-group .button:hover {
+  background-color: #3e8e41;
 }

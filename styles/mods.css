@@ -70,10 +70,10 @@ img.icon {
 .loading::before {
 	content: "";
 	background-image: url(https://www.svgrepo.com/show/485741/hourglass.svg);
-	background-size: 20px 20px;
+	background-size: 1.5em 1.5em;
 	background-repeat: no-repeat;
-	width: 20px;
-	height: 20px;
+	width: 1.5em;
+	height: 1.5em;
 	top: 4px;
 	display: inline-block;
 	position: relative;
@@ -83,21 +83,23 @@ img.icon {
 div.search {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
+	justify-content: space-around;
 	align-items: center;
 	align-content: center;
 	width: 60%;
+	margin-bottom: .5em;
 }
 
 input.search {
 	outline: 0;
     border: 1px solid var(--highlight);
     border-radius: 1em;
-    padding: 8px;
+    padding: 0 0 0 2em;
     background-color: var(--primary);
     color: var(--text);
-	height: 2vw;
+	height: 2em;
 	width: 95%;
+	font-size: 1em;
 }
 
 img.search {

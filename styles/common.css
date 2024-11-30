@@ -50,7 +50,7 @@
 
 .size-big { font-size: 22px; white-space: nowrap; }
 
-.size-big-scalable { font-size: 2vw; white-space: nowrap; }
+.size-big-scalable { font-size: 1.5em; white-space: nowrap; }
 
 .base-layout {
 	display: flex;

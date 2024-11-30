@@ -2,8 +2,10 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title></title>
+	<title id='page-title'></title>
+	<link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/RL2-API/RL2.ModLoader/main/Assets/ModLoaderIcon-NoText-700x700.png">
 	<link rel="stylesheet" href="styles/mods.css">
 	<link rel="stylesheet" href="styles/mod.css">
 	<link rel="stylesheet" href="styles/common.css">
@@ -37,7 +39,36 @@
 	|
 </nav>
 
-<div id="mod-info" class="width-90p mod-info"></div>
+<!-- Main content -->
+<div id="mod-info" class="mod-info"></div>
+
+<!-- Footer -->
+<footer>
+	<!-- Socials and shit -->
+	<hr class="width-250"/>
+	How to find us: <br>
+
+	<!-- YouTube channel -->
+	<a href="https://www.youtube.com/channel/UChKqsjhVlw6D7Wn03FCcmHg" class="accented youtube-link link">
+		Taco
+	</a>
+	&ensp;|&ensp;
+
+	<!-- GitHub account -->
+	<a href="https://www.github.com/RL2-API" class="accented github-link link">
+		RL2.API
+	</a>
+	&ensp;|&ensp;
+
+	<a href="/" class="accented website-link link">
+		Website
+	</a>
+	&ensp;|&ensp;
+
+	<a href="https://discord.com/invite/cellardoorgames" class="accented discord-link link">
+		CDG Discord server
+	</a>
+</footer>
 
 </body>
 </html>
@@ -58,11 +89,13 @@ const db = createClient({
 
 const searchParams = new URLSearchParams(window.location.search);
 
+const name = searchParams.get('name');
+
 const ModList = () => {
 	const [data] = createResource(
 		async () => {
 			const result = await db.execute(`
-				SELECT shortinfo.name, longinfo.description, longinfo.changelog, shortinfo.version, shortinfo.link
+				SELECT shortinfo.name, longinfo.description, longinfo.changelog, shortinfo.version, shortinfo.link, shortinfo.icon_src, shortinfo.author
 				FROM longinfo INNER JOIN shortinfo ON longinfo.name = shortinfo.name 
 				WHERE shortinfo.name LIKE '${searchParams.get('name')}'
 				ORDER BY shortinfo.version DESC`
@@ -75,9 +108,24 @@ const ModList = () => {
 
 	return html`
 		<div class="mod-plaque">
-
+			<div class='padding-10-scalable' innerHTML=${
+				() => {
+					const fetched = data();
+					if (!fetched) return "<h3 class=\"loading\">Loading...</h3>";
+					return `
+						<img src='${fetched[0].icon_src}' class ='icon'/>
+						<h3>${name}</h3>
+						<p>by ${fetched[0].author}</p>
+					`
+				}
+			}/>
 		</div>
+
 		<div class="width-60p margin-sides-5-scalable">
+			<div class="width-full left-aligned btn-group">
+				<button class="button" onClick=${(e) => setDisplayedInfo('description')}>Description</button>
+				<button class="button" onClick=${(e) => setDisplayedInfo('changelog')}>Changelog</button>
+			</div>
 			<div class="padding-10-scalable" innerHTML=${() => {
 				const bonk = data();
 				if (bonk) {
@@ -87,7 +135,9 @@ const ModList = () => {
 			}}>
 			</div>
 		</div>
+
 		<div class="version-store padding-10-scalable">
+			<p class='size-big-scalable marginless'>Versions:</p>
 			<${For} each=${() => data()}>
 				${(item) => html`
 						<div class="version">
@@ -101,5 +151,7 @@ const ModList = () => {
 };
 	
 render(ModList, document.getElementById("mod-info"));
+
+document.getElementById("page-title").innerHTML = name;
 
 </script>
