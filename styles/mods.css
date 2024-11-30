@@ -2,6 +2,7 @@
 	--text: #d6d6d6;
 	--background: #111111;
 	--primary: #2c2d2b;
+	--highlight: #3a3b39;
 	--navbar: #181818;
 }
 
@@ -10,7 +11,7 @@
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	font-family: "JetBrains Mono", monospace;
-	font-size: 14px;
+	font-size: 1vw;
 	color: var(--text);
 	tab-size: 4;
 	line-height: 2;
@@ -26,17 +27,28 @@
 	align-content: center;
 
 	background-color: var(--primary);
-	border-radius: 5px;
-	min-width: 40%;
-	max-width: 75%;
+	border-radius: 1vw;
+	width: 60%;
+}
+
+.mod:hover {
+	background-color: var(--highlight);
 }
 
 div.icon {
-	margin: 10px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	align-content: center;
 }
 
 img.icon {
-	width: 100px;
+	width: 10vw;
+}
+
+.icon-small {
+	width: 5vw;
 }
 
 .details {
@@ -48,4 +60,26 @@ img.icon {
 	align-items: baseline;
 	flex-direction: row;
 	justify-content: space-between;
+}
+
+.description {
+	text-wrap: wrap;
+	font-size: 11	px;
+}
+
+.loading {
+	color: white;
+}
+
+.loading::before {
+	content: "";
+	background-image: url(https://www.svgrepo.com/show/485741/hourglass.svg);
+	background-size: 20px 20px;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+	top: 4px;
+	display: inline-block;
+	position: relative;
+	filter: invert(100%);
 }
