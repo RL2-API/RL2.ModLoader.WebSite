@@ -73,7 +73,7 @@ const ModList = () => {
 		<input type='search' placeholder='Search...' onInput=${(e) => { setSearch(e.target.value);
 			filter(
 				search().length == 0 ? data() :
-				data().filter(item => item.name.includes(search()))
+				data().filter(item => item.name.toLowerCase().includes(search().toLowerCase()))
 			)
 		}}/>
 
