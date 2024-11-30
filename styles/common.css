@@ -1,5 +1,13 @@
 .min-width-0 { min-width: 0px; }
 
+.width-60p { width: 60%; }
+
+.width-70p { width: 70%; }
+
+.width-80p { width: 80%; }
+
+.width-90p { width: 90%; }
+
 .width-full { width: 100% }
 
 .width-150 { width: 150px; }
@@ -20,6 +28,8 @@
 
 .margin-sides-10 { margin-left: 10px; margin-right: 10px; }
 
+.margin-sides-5-scalable { margin-left: .5vw; margin-right: .5vw; }
+
 .margin-sides-10-scalable { margin-left: 1vw; margin-right: 1vw; }
 
 .margin-bottom-10-scalable { margin-bottom: 1vw;  }
@@ -29,6 +39,8 @@
 .paddingless { padding: 0; }
 
 .padding-10 { padding: 10px; }
+
+.padding-10-scalable { padding: 1vw; }
 
 .inverted { filter: invert(100%); }
 
@@ -70,7 +82,6 @@
 
 	font-size: 1.15vw;
 }
-
 
 .icon-small {
 	width: 4vw;

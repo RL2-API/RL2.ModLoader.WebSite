@@ -5,8 +5,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title></title>
 	<link rel="stylesheet" href="styles/mods.css">
+	<link rel="stylesheet" href="styles/mod.css">
 	<link rel="stylesheet" href="styles/common.css">
 	<link rel="stylesheet" href="styles/links.css">
+	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=JetBrains Mono'>
 </head>
 <body class="background base-layout">
 
@@ -20,7 +22,7 @@
 	</div>
 	|
 	<div class="navbar-element">
-		<img src="https://raw.githubusercontent.com/RL2-API/RL2.ModLoader/main/Assets/ModLoaderIcon-NoText-700x700.png" width="50"/>
+		<img src="https://raw.githubusercontent.com/RL2-API/RL2.ModLoader/main/Assets/ModLoaderIcon-NoText-700x700.png" class="icon-small"/>
 		&ensp;&ensp;
 		<a href="/" class="link">
 			<h2>RL2.ModLoader</h2>
@@ -35,7 +37,7 @@
 	|
 </nav>
 
-<div id="mod-info"></div>
+<div id="mod-info" class="width-90p mod-info"></div>
 
 </body>
 </html>
@@ -43,9 +45,8 @@
 <script type="module">
 
 // SolidJS
-import { createResource, For } from "https://esm.sh/solid-js@1.8.1";
+import { createSignal, createResource, For, Show } from "https://esm.sh/solid-js@1.8.1";
 import { render } from "https://esm.sh/solid-js@1.8.1/web";
-import h from "https://esm.sh/solid-js@1.8.1/h";
 import html from "https://esm.sh/solid-js@1.8.1/html";
 // Database
 import { createClient } from "https://esm.sh/@libsql/client"
@@ -60,21 +61,42 @@ const searchParams = new URLSearchParams(window.location.search);
 const ModList = () => {
 	const [data] = createResource(
 		async () => {
-			const result = await db.execute("SELECT longinfo.name, longinfo.description, shortinfo.version FROM longinfo INNER JOIN shortinfo ON longinfo.name = shortinfo.name WHERE longinfo.name LIKE " + "\"" + searchParams.get('name') + "\"");
+			const result = await db.execute(`
+				SELECT shortinfo.name, longinfo.description, longinfo.changelog, shortinfo.version, shortinfo.link
+				FROM longinfo INNER JOIN shortinfo ON longinfo.name = shortinfo.name 
+				WHERE shortinfo.name LIKE '${searchParams.get('name')}'
+				ORDER BY shortinfo.version DESC`
+			);
 			return result.rows;
 		}
 	);
 
+	const [displayedInfo, setDisplayedInfo] = createSignal('description');
+
 	return html`
-		<div innerHTML=${() => {
-			const bonk = data();
-			if (bonk) {
-				return bonk[0].description;
-			}
-			else {
+		<div class="mod-plaque">
+
+		</div>
+		<div class="width-60p margin-sides-5-scalable">
+			<div class="padding-10-scalable" innerHTML=${() => {
+				const bonk = data();
+				if (bonk) {
+					return displayedInfo() == 'description' ? bonk[0].description : bonk[0].changelog;
+				}
 				return "<h3 class=\"loading\">Loading...</h3>";
-			}
-		}}></div>
+			}}>
+			</div>
+		</div>
+		<div class="version-store padding-10-scalable">
+			<${For} each=${() => data()}>
+				${(item) => html`
+						<div class="version">
+							<a href='${item.link}' class='download-link link'>${item.version}</a>
+						</div>
+					`
+				}
+			<//>
+		</div>
 	`;
 };
 	

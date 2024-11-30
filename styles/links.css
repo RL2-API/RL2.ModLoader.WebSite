@@ -83,11 +83,12 @@ a.link {
 .download-link::before {
 	content: "";
 	background-image: url("https://www.svgrepo.com/show/140007/download-button.svg");
-	background-size: 20px 20px;
+	background-size: 1.5em 1.5em;
 	background-repeat: no-repeat;
-	width: 40px;
-	height: 20px;
+	width: 3em;
+	height: 1.5em;
 	display: inline-block;
 	position: relative;
 	filter: invert(100%);
+	top: .4em;
 }

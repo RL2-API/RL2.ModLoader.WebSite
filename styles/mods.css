@@ -60,7 +60,7 @@ img.icon {
 
 .description {
 	text-wrap: wrap;
-	font-size: 11px;
+	font-size: .9vw;
 }
 
 .loading {
@@ -77,5 +77,31 @@ img.icon {
 	top: 4px;
 	display: inline-block;
 	position: relative;
+	filter: invert(100%);
+}
+
+div.search {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	align-content: center;
+	width: 60%;
+}
+
+input.search {
+	outline: 0;
+    border: 1px solid var(--highlight);
+    border-radius: 1em;
+    padding: 8px;
+    background-color: var(--primary);
+    color: var(--text);
+	height: 2vw;
+	width: 95%;
+}
+
+img.search {
+	width: 1.5vw;
+	height: 1.5vw;
 	filter: invert(100%);
 }
