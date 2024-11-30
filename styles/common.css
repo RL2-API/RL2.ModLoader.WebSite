@@ -20,7 +20,11 @@
 
 .margin-sides-10 { margin-left: 10px; margin-right: 10px; }
 
-.margin-sides-10-scalable { margin-left: 1em; margin-right: 1em; }
+.margin-sides-10-scalable { margin-left: 1vw; margin-right: 1vw; }
+
+.margin-bottom-10-scalable { margin-bottom: 1vw;  }
+
+.margin-bottom-20-scalable { margin-bottom: 2vw;  }
 
 .paddingless { padding: 0; }
 
@@ -48,9 +52,9 @@
 	display: flex;
 	flex-direction: row;
 	width: 50%;
-	height: 6vw;
+	height: 7vw;
 
-	font-size: 2.25vw;
+	font-size: 2.6vw;
 
 	text-align: center;
 	align-items: center;
@@ -64,5 +68,10 @@
 	align-items: center;
 	justify-content: center;
 
-	font-size: 1.5vw;
+	font-size: 1.15vw;
+}
+
+
+.icon-small {
+	width: 4vw;
 }
