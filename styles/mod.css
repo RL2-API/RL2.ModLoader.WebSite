@@ -1,0 +1,24 @@
+.mod-info {
+	display: flex;
+	flex-direction: row;
+	text-align: center;
+	justify-content: center;
+	align-items: flex-start;
+}
+
+.mod-plaque {
+	width: 10%;
+}
+
+
+.mod-info > div {
+	background-color: var(--primary);
+}
+
+.version-store {
+	width: 10%;
+}
+
+.version:hover {
+	background-color: var(--highlight);
+}
