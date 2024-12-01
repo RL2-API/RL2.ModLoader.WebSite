@@ -1,13 +1,21 @@
+a.link {
+	text-decoration: none;
+	background: linear-gradient(to right, #c2e150, #6eC421);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
 .github-link {  }
 
 .github-link::before {
 	content: "";
 	background-image: url("https://i.gyazo.com/85e7ce9196ae635161fec921602903a7.png");
-	background-size: 20px 20px;
+	background-size: 1.5em 1.5em;
 	background-repeat: no-repeat;
-	width: 20px;
-	height: 20px;
-	top: 4px;
+	width: 1.75em;
+	height: 1.5em;
+	top: .4em;
 	display: inline-block;
 	position: relative;
 }
@@ -17,11 +25,11 @@
 .source-link::before {
 	content: "";
 	background-image: url("https://www.svgrepo.com/show/16272/programming-code.svg");
-	background-size: 20px 20px;
+	background-size: 1.5em 1.5em;
 	background-repeat: no-repeat;
-	width: 20px;
-	height: 20px;
-	top: 4px;
+	width: 1.75em;
+	height: 1.5em;
+	top: .4em;
 	display: inline-block;
 	position: relative;
 	filter: invert(100%);
@@ -32,11 +40,11 @@
 .discord-link::before {
 	content: "";
 	background-image: url("https://raw.githubusercontent.com/gilbarbara/logos/52addcaa18dfecb4df77f3ee0753dca6b98187ad/logos/discord-icon.svg");
-	background-size: 20px 20px;
+	background-size: 1.5em 1.5em;
 	background-repeat: no-repeat;
-	width: 20px;
-	height: 20px;
-	top: 4px;
+	width: 1.75em;
+	height: 1.5em;
+	top: .4em;
 	display: inline-block;
 	position: relative;
 }
@@ -46,11 +54,11 @@
 .youtube-link::before {
 	content: "";
 	background-image: url("https://raw.githubusercontent.com/gilbarbara/logos/52addcaa18dfecb4df77f3ee0753dca6b98187ad/logos/youtube-icon.svg");
-	background-size: 20px 20px;
+	background-size: 1.5em 1.5em;
 	background-repeat: no-repeat;
-	width: 20px;
-	height: 20px;
-	top: 4px;
+	width: 1.75em;
+	height: 1.5em;
+	top: .4em;
 	display: inline-block;
 	position: relative;
 }
@@ -60,11 +68,11 @@
 .website-link::before {
 	content: "";
 	background-image: url("https://www.svgrepo.com/show/478273/internet-3.svg");
-	background-size: 20px 20px;
+	background-size: 1.5em 1.5em;
 	background-repeat: no-repeat;
-	width: 20px;
-	height: 20px;
-	top: 4px;
+	width: 1.75em;
+	height: 1.5em;
+	top: .4em;
 	display: inline-block;
 	position: relative;
 	filter: invert(100%);
@@ -75,11 +83,12 @@
 .download-link::before {
 	content: "";
 	background-image: url("https://www.svgrepo.com/show/140007/download-button.svg");
-	background-size: 20px 20px;
+	background-size: 1.5em 1.5em;
 	background-repeat: no-repeat;
-	width: 40px;
-	height: 20px;
+	width: 3em;
+	height: 1.5em;
 	display: inline-block;
 	position: relative;
 	filter: invert(100%);
+	top: .4em;
 }

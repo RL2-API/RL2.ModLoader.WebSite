@@ -1,0 +1,88 @@
+.min-width-0 { min-width: 0px; }
+
+.width-60p { width: 60%; }
+
+.width-70p { width: 70%; }
+
+.width-80p { width: 80%; }
+
+.width-90p { width: 90%; }
+
+.width-full { width: 100% }
+
+.width-150 { width: 150px; }
+
+.width-250 { width: 250px; }
+
+.width-300 { width: 300px; }
+
+.width-800 { width: 800px; }
+
+.marginless { margin: 0; }
+
+.margin-10 { margin: 10px; }
+
+.margin-5-scalable { margin: .5em; }
+
+.margin-10-scalable { margin: 1em; }
+
+.margin-sides-10 { margin-left: 10px; margin-right: 10px; }
+
+.margin-sides-5-scalable { margin-left: .5vw; margin-right: .5vw; }
+
+.margin-sides-10-scalable { margin-left: 1vw; margin-right: 1vw; }
+
+.margin-bottom-10-scalable { margin-bottom: 1vw;  }
+
+.margin-bottom-20-scalable { margin-bottom: 2vw;  }
+
+.paddingless { padding: 0; }
+
+.padding-10 { padding: 10px; }
+
+.padding-10-scalable { padding: 1vw; }
+
+.inverted { filter: invert(100%); }
+
+.right-aligned { text-align: right; }
+
+.left-aligned { text-align: left; }
+
+.size-big { font-size: 22px; white-space: nowrap; }
+
+.size-big-scalable { font-size: 1.5em; white-space: nowrap; }
+
+.base-layout {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+}
+
+.navbar {
+	display: flex;
+	flex-direction: row;
+	width: 50%;
+	height: 7vw;
+
+	font-size: 2.6vw;
+
+	text-align: center;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+.navbar-element {
+
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+
+	font-size: 1.15vw;
+}
+
+.icon-small {
+	width: 4vw;
+}
