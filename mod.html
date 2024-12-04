@@ -79,28 +79,16 @@
 import { createSignal, createResource, For, Show } from "https://esm.sh/solid-js@1.8.1";
 import { render } from "https://esm.sh/solid-js@1.8.1/web";
 import html from "https://esm.sh/solid-js@1.8.1/html";
-// Database
-import { createClient } from "https://esm.sh/@libsql/client"
 
-const db = createClient({
-	url: "https://rl2-mod-store-tacoconkvass.aws-eu-west-3.turso.io",
-  authToken: "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicm8iLCJpYXQiOjE3MzI4ODk5NjcsImlkIjoiOTJiYmNjYmMtZDU1Yy00MWNkLTkxMmEtNTM1MjU1Yzk1OGZmIn0.oQs2JAoq6lCJuyIPQglcIBvjJtCbx2cDxinvhJIVcqOzst6kesnX95zz9ZL46-UTfrNKazpv1s6dOfTYew0JAg",
-})
 
 const searchParams = new URLSearchParams(window.location.search);
-
 const name = searchParams.get('name');
 
 const ModList = () => {
 	const [data] = createResource(
 		async () => {
-			const result = await db.execute(`
-				SELECT shortinfo.name, longinfo.description, longinfo.changelog, shortinfo.version, shortinfo.link, shortinfo.icon_src, shortinfo.author
-				FROM longinfo INNER JOIN shortinfo ON longinfo.name = shortinfo.name 
-				WHERE shortinfo.name LIKE '${searchParams.get('name')}'
-				ORDER BY shortinfo.version DESC`
-			);
-			return result.rows;
+			const result = await fetch(`https://rl2-modloader-db.onrender.com/mod/${name}`)
+			return result.json();
 		}
 	);
 
@@ -113,9 +101,9 @@ const ModList = () => {
 					const fetched = data();
 					if (!fetched) return "<h3 class=\"loading\">Loading...</h3>";
 					return `
-						<img src='${fetched[0].icon_src}' class ='icon'/>
+						<img src='${fetched.mod_info[0].icon_src}' class ='icon'/>
 						<h3>${name}</h3>
-						<p>by ${fetched[0].author}</p>
+						<p>by ${fetched.mod_info[0].author}</p>
 					`
 				}
 			}/>
@@ -127,9 +115,9 @@ const ModList = () => {
 				<button class="button" onClick=${(e) => setDisplayedInfo('changelog')}>Changelog</button>
 			</div>
 			<div class="padding-10-scalable" innerHTML=${() => {
-				const bonk = data();
-				if (bonk) {
-					return displayedInfo() == 'description' ? bonk[0].description : bonk[0].changelog;
+				const fetched= data();
+				if (fetched) {
+					return displayedInfo() == 'description' ? fetched.mod_info[0].description : fetched.mod_info[0].changelog;
 				}
 				return "<h3 class=\"loading\">Loading...</h3>";
 			}}>
@@ -138,7 +126,11 @@ const ModList = () => {
 
 		<div class="version-store padding-10-scalable">
 			<p class='size-big-scalable marginless'>Versions:</p>
-			<${For} each=${() => data()}>
+			<${For} each=${() => {
+				const dat = data();
+				if (!dat) return [];
+				return dat.versions ? dat.versions : [];
+			}}>
 				${(item) => html`
 						<div class="version">
 							<a href='${item.link}' class='download-link link'>${item.version}</a>
