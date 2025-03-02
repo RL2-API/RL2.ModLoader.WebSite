@@ -56,3 +56,17 @@
 .btn-group .button:hover {
   background-color: #3e8e41;
 }
+
+#mod-description pre {
+	background-color: #181818;
+	font-size: .7em;
+	padding: 14px;
+}
+
+code {
+	background-color: #181818;
+	display: inline-block;
+	white-space: normal;
+	word-break:break-all; 
+	word-wrap:break-word;
+}

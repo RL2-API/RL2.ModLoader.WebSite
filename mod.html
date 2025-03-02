@@ -77,6 +77,7 @@
 
 // SolidJS
 import { createSignal, createResource, For, Show } from "https://esm.sh/solid-js@1.8.1";
+import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
 import { render } from "https://esm.sh/solid-js@1.8.1/web";
 import html from "https://esm.sh/solid-js@1.8.1/html";
 
@@ -101,9 +102,9 @@ const ModList = () => {
 					const fetched = data();
 					if (!fetched) return "<h3 class=\"loading\">Loading...</h3>";
 					return `
-						<img src='${fetched.mod_info[0].icon_src}' class ='icon'/>
+						<img src='${fetched.mod_info.icon_src}' class ='icon'/>
 						<h3>${name}</h3>
-						<p>by ${fetched.mod_info[0].author}</p>
+						<p>by ${fetched.mod_info.author}</p>
 					`
 				}
 			}/>
@@ -114,10 +115,20 @@ const ModList = () => {
 				<button class="button" onClick=${(e) => setDisplayedInfo('description')}>Description</button>
 				<button class="button" onClick=${(e) => setDisplayedInfo('changelog')}>Changelog</button>
 			</div>
-			<div class="padding-10-scalable" innerHTML=${() => {
+			<div class="padding-10-scalable left-aligned" id="mod-description" innerHTML=${() => {
 				const fetched= data();
 				if (fetched) {
-					return displayedInfo() == 'description' ? fetched.mod_info[0].description : fetched.mod_info[0].changelog;
+					if (displayedInfo() == 'description') {
+						return fetched.mod_info.long_desc.replaceAll("\\n", "\n");
+					}
+
+					let markdown = ""; 
+					fetched.versions.forEach((element) => {
+							if (element.changelog == null) return;
+							markdown += `\n## ${element.version}\n` + element.changelog.replaceAll("\\n", "\n");
+						}
+					);
+					return marked.parse(markdown);
 				}
 				return "<h3 class=\"loading\">Loading...</h3>";
 			}}>
