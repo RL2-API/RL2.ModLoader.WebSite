@@ -56,7 +56,7 @@
 
 @media (width <= 620px) {
  #side-panel { flex-direction: row; align-items: stretch; }
- .mod-info { width: 320px; flex-direction: column; align-items: center; }
+ .mod-info { width: 320px; flex-direction: column; align-items: center; font-size: 13px; }
  .mod-info > div { margin-bottom: 10px; }
  .mod-plaque { width: 140px; }
  #mod-icon { width: 100px; }
