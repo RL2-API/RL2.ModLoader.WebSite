@@ -2,8 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title id='page-title'></title>
 	<link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/RL2-API/RL2.ModLoader/main/Assets/ModLoaderIcon-NoText-700x700.png">
 	<link rel="stylesheet" href="styles/mods.css">
@@ -45,7 +44,7 @@
 <!-- Footer -->
 <footer>
 	<!-- Socials and shit -->
-	<hr class="width-250"/>
+	<hr style="width: 300px"/>
 	How to find us: <br>
 
 	<!-- YouTube channel -->
@@ -85,6 +84,9 @@ import html from "https://esm.sh/solid-js@1.8.1/html";
 const searchParams = new URLSearchParams(window.location.search);
 const name = searchParams.get('name');
 
+const default_icon = "https://static.wikia.nocookie.net/rogue-legacy-2/images/5/59/UnderConstructionSign_Texture.png/revision/latest?cb=20220520193441";
+const loading_placeholder = '<div class="center-aligned"> <h3 class="loading margin-sides-auto"></h3> </div>';
+
 const ModList = () => {
 	const [data] = createResource(
 		async () => {
@@ -96,59 +98,58 @@ const ModList = () => {
 	const [displayedInfo, setDisplayedInfo] = createSignal('description');
 
 	return html`
-		<div class="mod-plaque">
-			<div class='padding-10-scalable' innerHTML=${
-				() => {
-					const fetched = data();
-					if (!fetched) return "<h3 class=\"loading\">Loading...</h3>";
-					return `
-						<img src='${fetched.mod_info.icon_src}' class ='icon'/>
-						<h3>${name}</h3>
-						<p>by ${fetched.mod_info.author}</p>
-					`
-				}
-			}/>
-		</div>
+  <div id="side-panel">
+   <div class="mod-plaque padding-10-scalable"">
+			 <div innerHTML=${
+				 () => {
+					 const fetched = data();
+					 if (!fetched) return loading_placeholder; 
+					 return `
+					 	<img src='${fetched.mod_info.icon_src ?? default_icon}' id="mod-icon" class='margin-sides-auto'/>
+					 	<h3>${name}</h3>
+					 	<p>by ${fetched.mod_info.author}</p>
+					 `
+				 }
+			 }/>
+		 </div>
 
-		<div class="width-60p margin-sides-5-scalable">
+		 <div class="version-store padding-10-scalable">
+			 <p class='size-big-scalable marginless'>Versions:</p>
+			 <${For} each=${() => {
+			 	const dat = data();
+			 	if (!dat) return [];
+			 	return dat.versions ? dat.versions : [];
+			 }}>
+			 	${(item) => html`
+				 		<div class="version">
+					 		<a href='${item.link}' class='download-link link'>${item.version}</a>
+						 </div>
+					 `
+				 }
+		 	<//>
+		 </div>
+  </div>
+
+		<div class="margin-sides-10" id="mod-description-container">
 			<div class="width-full left-aligned btn-group">
-				<button class="button" onClick=${(e) => setDisplayedInfo('description')}>Description</button>
-				<button class="button" onClick=${(e) => setDisplayedInfo('changelog')}>Changelog</button>
-			</div>
-			<div class="padding-10-scalable left-aligned" id="mod-description" innerHTML=${() => {
-				const fetched= data();
-				if (fetched) {
-					if (displayedInfo() == 'description') {
-						return fetched.mod_info.long_desc.replaceAll("\\n", "\n");
-					}
+				<button class="button" id="description_button" onClick=${(e) => setDisplayedInfo('description')} style='display: none'>Description</button>
+    <button class="button" id="changelog_button" onClick=${(e) => setDisplayedInfo("changelog")} style='display: none'>Changelog</button>
+   </div>
+   <div class="padding-10 left-aligned" id="mod-description" innerHTML=${() => {
+				const fetched = data();
 
-					let markdown = ""; 
-					fetched.versions.forEach((element) => {
-							if (element.changelog == null) return;
-							markdown += `\n## ${element.version}\n` + element.changelog.replaceAll("\\n", "\n");
-						}
-					);
-					return marked.parse(markdown);
-				}
-				return "<h3 class=\"loading\">Loading...</h3>";
-			}}>
-			</div>
-		</div>
+				if (!fetched) return loading_placeholder;
+    
+    document.getElementById('description_button').style.display = 'block';
+    if (!fetched.versions.every(i => i.changelog == null)) document.getElementById('changelog_button').style.display = 'block';
+					
+    if (displayedInfo() == 'description') return fetched.mod_info.long_desc.replaceAll("\\n", "\n");
 
-		<div class="version-store padding-10-scalable">
-			<p class='size-big-scalable marginless'>Versions:</p>
-			<${For} each=${() => {
-				const dat = data();
-				if (!dat) return [];
-				return dat.versions ? dat.versions : [];
-			}}>
-				${(item) => html`
-						<div class="version">
-							<a href='${item.link}' class='download-link link'>${item.version}</a>
-						</div>
-					`
-				}
-			<//>
+				let markdown = ""; 
+    fetched.versions.forEach((element) => markdown += '\n## ' + element.version + '\n' + element.changelog.replaceAll("\\n", '\n') ?? "");
+				return marked.parse(markdown);
+   }}>
+			</div>
 		</div>
 	`;
 };

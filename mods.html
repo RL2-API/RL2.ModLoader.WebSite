@@ -2,8 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Mods</title>
 	<link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/RL2-API/RL2.ModLoader/main/Assets/ModLoaderIcon-NoText-700x700.png">
 	<link rel="stylesheet" href="styles/mods.css">
@@ -81,6 +80,8 @@ import { createSignal, createEffect, createResource, For } from "https://esm.sh/
 import { render } from "https://esm.sh/solid-js@1.8.1/web";
 import html from "https://esm.sh/solid-js@1.8.1/html";
 
+const default_icon = "https://static.wikia.nocookie.net/rogue-legacy-2/images/5/59/UnderConstructionSign_Texture.png/revision/latest?cb=20220520193441";
+
 const ModList = () => {
 	const [data] = createResource(
 		async () => {
@@ -106,14 +107,14 @@ const ModList = () => {
 		<${For} each=${() => search().length == 0 ? data() : filtered()} fallback=${html`<h2 class='loading'>Loading...</h2>`}>
 			${(item) => html`
 				<article class="mod margin-5-scalable" onClick=${(e) => window.location = '/mod?name=' + item.name }>
-					<div class="icon paddingless margin-10-scalable">
-						<img src="${item.icon_src}" class="icon"/>
+					<div class="icon paddingless margin-10">
+						<img src="${item.icon_src ?? default_icon}" class="icon"/>
 					</div>
 
 					<div class="details width-full margin-10">
 						<div class="title">
-							<p class="size-big-scalable marginless">${item.name}</p>
-							<p class="width-full left-aligned margin-10">&ensp;by ${item.author}</p>
+       <p class="size-big-scalable marginless">${item.name}</p>
+       <p class="margin-sides-10"> by ${item.author}</p>
 						</div>
 							
 						<div class="description left-aligned">
