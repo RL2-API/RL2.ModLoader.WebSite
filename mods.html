@@ -86,7 +86,7 @@ const default_icon = "default_icon.png";
 const ModList = () => {
 	const [data] = createResource(
 		async () => {
-			const result = await fetch('https://rl2-modloader-db.onrender.com/mod-list');
+			const result = await fetch('https://rl2-modloader-db-saiu.shuttle.app/api/mod-list');
 			return result.json();
 		}
 	);
