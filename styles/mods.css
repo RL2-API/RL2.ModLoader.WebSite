@@ -29,6 +29,7 @@
 	background-color: var(--primary);
 	border-radius: 10px;
 	width: 600px;
+	cursor: pointer;
 }
 
 .mod:hover {
