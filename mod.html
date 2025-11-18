@@ -90,7 +90,7 @@ const loading_placeholder = '<div class="center-aligned"> <h3 class="loading mar
 const ModList = () => {
 	const [data] = createResource(
 		async () => {
-			const result = await fetch(`https://rl2-modloader-db-saiu.shuttle.app/api/mod/${name}`)
+			const result = await fetch(`https://db.rl2-api.org/api/mod/${name}`)
 			return result.json();
 		}
 	);
