@@ -6,20 +6,27 @@
   };
 
   outputs = { self, unstable } : let
-    systems = [ "x86_64-linux" "aarch64-linux" "aarch64-linux"];
+    systems = [ "x86_64-linux" "aarch64-linux"];
     lib = unstable.lib;
     manifest = builtins.fromTOML (builtins.readFile ./Cargo.toml);
-  in {
-    packages = lib.genAttrs systems (system: let
+  in lib.mergeAttrsList (lib.flatten (lib.map (system: let
       pkgs = unstable.legacyPackages.${system};
-    in rec {
-      default = rl2db;
+    in {
+      packages.${system} = rec {
+        default = rl2db;
       
-      rl2db = pkgs.rustPlatform.buildRustPackage {
-        inherit (manifest.package) name version;
-        src = lib.cleanSource ./.;
-        cargoLock.lockFile = ./Cargo.lock;
+        rl2db = pkgs.rustPlatform.buildRustPackage {
+          inherit (manifest.package) name version;
+          src = lib.cleanSource ./.;
+          cargoLock.lockFile = ./Cargo.lock;
+        };
       };
-    });
-  };
+      devShell.${system} = pkgs.mkShell {
+        buildInputs = [ pkgs.cargo pkgs.rustc ];
+        shellHook = ''
+          echo "Entered RL2.DB development shell"
+        '';
+      };
+    }
+  ) systems));
 }
