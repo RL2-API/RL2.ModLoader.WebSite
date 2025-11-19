@@ -9,7 +9,8 @@
     systems = [ "x86_64-linux" "aarch64-linux"];
     lib = unstable.lib;
     manifest = builtins.fromTOML (builtins.readFile ./Cargo.toml);
-  in lib.mergeAttrsList (lib.flatten (lib.map (system: let
+    forEachSystem = func: lib.foldAttrs (item: acc: item // acc) {} (lib.map func systems);
+  in forEachSystem (system: let
       pkgs = unstable.legacyPackages.${system};
     in {
       packages.${system} = rec {
@@ -28,5 +29,5 @@
         '';
       };
     }
-  ) systems));
+  );
 }
