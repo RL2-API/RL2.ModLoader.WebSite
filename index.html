@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="main-theme">
+<html>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,114 +7,119 @@
 	<title>RL2.ModLoader</title>
 	<link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/RL2-API/RL2.ModLoader/main/Assets/ModLoaderIcon-NoText-700x700.png">
 	<link rel="stylesheet" href="styles/shared.css">
-	<link rel="stylesheet" href="styles/links.css">
-	<link rel="stylesheet" href="styles/index.css">
+	<link rel="stylesheet" href="styles/main.css">
 </head>
-<body class="base-layout">
+<body>
 
-<!-- Navbar -->
-<nav class="navbar">
-	|
-	<div class="navbar-element">
-		<a href="https://github.com/RL2-API/RL2.ModLoader/releases/latest" class="accented">
-			<h2>Download</h2>
-		</a>
-	</div>
-	|
-	<div class="navbar-element">
-		<img src="https://raw.githubusercontent.com/RL2-API/RL2.ModLoader/main/Assets/ModLoaderIcon-NoText-700x700.png" width=50/>
-		&ensp;&ensp;
-		<a href="/" class="accented">
-			<h2>RL2.ModLoader</h2>
-		</a>
-	</div>
-	|
-	<div class="navbar-element">
-		<a href="/mods/" class="accented">
-			<h2>Mods</h2>
-		</a>
-	</div>
-	|
-</nav>
+<!-- Navbar
+<nav>
+    <a href="https://github.com/RL2-API/RL2.ModLoader/releases/latest">
+        <button type="button">
+            Download
+        </button>
+    </a>
+    <a href="/">
+        <button type="button">
+            Homepage
+        </button>
+    </a>
+    <a href="/mods">
+        <button type="button">
+            Mods
+        </button>
+    </a>
+</nav> -->
 
-<!-- Header -->
 <header>
-	<!-- Intro -->
-	<h2> What is <a href="https://github.com/RL2-API/RL2.ModLoader" class="accented">RL2.ModLoader</a>? </h2>
-	<div class="element-layout">
-		<img src="https://cdn1.epicgames.com/offer/4966d5da285c4f2c876937844b0e23ee/RL2wide_2560x1440-c4a1a4bd16f3b4a05e766b81ee4a1232" class="rl2-banner" tabindex="0" />
-		<p class="enlargeable left-aligned width-320" tabindex="0">
-			RL2.ModLoader is a custom mod loader, written by me,
-			for <a href="https://roguelegacy2.com/" class="accented">Rogue Legacy 2</a> - a roguelite
-			created by Cellar Door Games. The project provides a way to 
-			load specially prepared modifications into the game.
-		</p>
-	</div>
+    <h1>Welcome to RL2.ModLoader</h1>
+    <a href="">
+        <button type="">Download</button>
+    </a>
+    <a href="">
+        <button type="">Explore mods</button>
+    </a>
+    <a href="">
+        <button type="">Source</button>
+    </a>
 </header>
 
-<!-- Main -->
 <main>
-	<hr class="width-250">
+	<!-- Intro -->
+	<h2> What is <a href="https://github.com/RL2-API/RL2.ModLoader">RL2.ModLoader</a>? </h2>
+	<section class="align-left" id="the-what">
+        <img src="assets/RL2-banner-1280x720.png" alt="Rogue Legacy 2 Banner Art">
+		<article>
+			RL2.ModLoader is a custom mod loader
+			for <a href="https://roguelegacy2.com/">Rogue Legacy 2</a> - a roguelite
+			created by Cellar Door Games. The project provides a way to 
+			load specially prepared modifications into the game.
+		</article>
+	</section>
+	
+    <hr>
 
 	<!-- The why -->
-	<h2>Why was <a href="https://github.com/RL2-API/RL2.ModLoader" class="accented">RL2.ModLoader</a> created?</h2>
-	<div class="element-layout">
-		<p class="enlargeable right-aligned width-320" tabindex="0">
-			In May of 2023, I started creating modifications for <a href="https://roguelegacy2.com/" class="accented">Rogue Legacy 2</a>
+	<h2>Why was <a href="https://github.com/RL2-API/RL2.ModLoader">RL2.ModLoader</a> created?</h2>
+	<section class="align-right" id="the-why">
+		<article>
+			In May of 2023, I started creating modifications for <a href="https://roguelegacy2.com/">Rogue Legacy 2</a>
 			and sharing them in the Cellar Door Games Discord server. The main modding method at the time was 
 			directly modifying the games assembly or assets. This meant that a player was unable to use more than one mod 
 			altering the same files. This project was created to lift this restriction.
-		</p>
-		<img src="https://raw.githubusercontent.com/RL2-API/RL2.ModLoader/main/Assets/ModLoaderIcon-NoText-700x700.png" class="rl2-ml-logo" tabindex="0"/>
-	</div>
+		</article>
+        <img 
+            src="https://raw.githubusercontent.com/RL2-API/RL2.ModLoader/main/Assets/ModLoaderIcon-NoText-700x700.png" 
+            alt="RL2.ModLoader icon - a sword with the Antikythera mechanism behind it and th number 2 in front"
+        />
+	</section>
 
-	<hr class="width-250">
+	<hr>
 
 	<h2>How to install?</h2>
-	<div class="element-layout">
-		<iframe src="https://www.youtube.com/embed/KXa7LqFYy5o" class="video" style="width: 500px; height: 300px;"></iframe>
-		<div class="enlargeable left-aligned" style="width: 400px" >
-			<h3>Installer</h3>
+	<section class="align-left" id="how-to-install">
+        <iframe src="https://www.youtube.com/embed/KXa7LqFYy5o"></iframe>
+        <article>
+            <h3>Installer</h3>
 			<ol>
-				<li>Visit our <a href="https://github.com/RL2-API/RL2.ModLoader/releases/latest" class="accented">releases section</a></li>
+				<li>Visit our <a href="https://github.com/RL2-API/RL2.ModLoader/releases/latest">releases section</a></li>
 				<li>Download <code>RL2.ModLoader.zip</code> or <code>RL2.ModLoader.tar.gz</code></li>
 				<li>Unpack to directory of choice and run <code>RL2.ModLoader.Installer.exe</code></li>
 			</ol>
 
 			<h3>Manual</h3>
 			<ol>
-				<li>Visit our <a href="https://github.com/RL2-API/RL2.ModLoader/releases/latest" class="accented">releases section</a></li>
+				<li>Visit our <a href="https://github.com/RL2-API/RL2.ModLoader/releases/latest">releases section</a></li>
 				<li>Download <code>RL2.ModLoader-manual.zip</code></code></li>
 				<li>Unpack in the game's main directory, where the executable resides</li>
 			</ol>
-		</div>
-	</div>
+		</article>
+	</section>
 </main>
 
 <!-- Footer -->
 <footer>
 	<!-- Socials and shit -->
-	<hr class="width-250"/>
+	<hr/>
 	How to find us: <br>
 
 	<!-- YouTube channel -->
-	<a href="https://www.youtube.com/channel/UChKqsjhVlw6D7Wn03FCcmHg" class="accented youtube-link">
+	<a href="https://www.youtube.com/channel/UChKqsjhVlw6D7Wn03FCcmHg">
 		Taco
 	</a>
 	&ensp;|&ensp;
 
 	<!-- GitHub account -->
-	<a href="https://www.github.com/RL2-API" class="accented github-link">
+	<a href="https://www.github.com/RL2-API">
 		RL2.API
 	</a>
 	&ensp;|&ensp;
 
-	<a href="/" class="accented website-link">
+	<a href="/">
 		Website
 	</a>
 	&ensp;|&ensp;
 
-	<a href="https://discord.com/invite/cellardoorgames" class="accented discord-link">
+	<a href="https://discord.com/invite/cellardoorgames">
 		CDG Discord server
 	</a>
 </footer>
