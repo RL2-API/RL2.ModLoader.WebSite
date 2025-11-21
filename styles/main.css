@@ -2,15 +2,41 @@ body {
     display: flex;
     flex-direction: column;
     text-align: center;
-    font-size: 20px;
+    font-size: 22px;
     margin: 0px;
     color: var(--text-color);
-    background: var(--background);
+    background: linear-gradient(var(--bg-darkener), var(--bg-darkener)), url(../assets/RL2-TitleBanner.png);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center, center;
 }
 
 header {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), var(--background)), url(../assets/RL2-TitleBanner.png);
-    padding: 80px 0px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    height: 500px;
+    align-items: center;
+    justify-content: center;
+}
+
+header img {
+    width: 800px;
+}
+
+button {
+    font-size: 22px;
+    border: transparent;
+    background-color: rgb(200, 100, 0);
+    color: var(--text-color);
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+main {
+    padding: 100px 0px;
+    background: linear-gradient(transparent, var(--background) 5%, var(--background) 95%, transparent);
 }
 
 section {
@@ -19,14 +45,6 @@ section {
     align-items: center;
     justify-content: center;
     gap: 50px;
-}
-
-button {
-    border: transparent;
-    background-color: rgb(200, 100, 0);
-    color: var(--text-color);
-    padding: 10px 15px;
-    border-radius: 5px;
 }
 
 main a, footer a {
