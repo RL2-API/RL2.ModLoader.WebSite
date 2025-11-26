@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mods - RL2.ModLoader</title>
+    <link href="styles/shared.css" rel="stylesheet">
+</head>
+<body>
+
+<form>
+    <input type="text" name="search" placeholder="Search" {% if filter.len() != 0 %} value={{ filter }} {% endif %} />
+    <button type="submit"></button>
+</form>
+
+{% if mods.len() == 0 %}
+
+    No mods found...
+
+{% else %}
+
+    {% for item in mods %}
+        <article>
+            <h3>{{ item.name }} by {{ item.author }}</h3>
+            <img src={{ item.icon_src }} />
+            <p>{{ item.short_desc }}</p>
+        </article>
+    {% endfor %}
+
+{% endif %}
+
+</body>
+</html>

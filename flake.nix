@@ -23,7 +23,7 @@
         };
       };
       devShell.${system} = pkgs.mkShell {
-        buildInputs = [ pkgs.cargo pkgs.rustc ];
+        buildInputs = [ pkgs.cargo pkgs.rustc pkgs.rust-analyzer pkgs.rustfmt pkgs.helix ];
         shellHook = ''
           echo "Entered RL2.DB development shell"
         '';
