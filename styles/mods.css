@@ -88,13 +88,13 @@ div.search {
 }
 
 input.search {
- outline: 0;
- border: 1px solid var(--highlight);
- border-radius: 10px;
- padding: 10px;
- background-color: var(--primary);
- color: var(--text);
- height: 20px;
+  outline: 0;
+  border: 1px solid var(--highlight);
+  border-radius: 10px;
+  padding: 10px;
+  background-color: var(--primary);
+  color: var(--text);
+  height: 20px;
 	width: 95%;
 }
 
@@ -105,15 +105,14 @@ img.search {
 }
 
 @media (width <= 650px) {
- .mod { width: 400px; font-size: 8px; }
- div.search { width: 400px; }
- .icon { width: 50px; }
+  .mod { width: 400px; font-size: 8px; }
+  div.search { width: 400px; }
+  .icon { width: 50px; }
 }
 
 @media (width <= 450px) {
- .mod { width: 300px; font-size: 7px; }
- .title { font-size: 6px; }
- div.search { width: 300px; }
- .icon { width: 30px; }
+  .mod { width: 300px; font-size: 7px; }
+  .title { font-size: 6px; }
+  div.search { width: 300px; }
+  .icon { width: 30px; }
 }
-

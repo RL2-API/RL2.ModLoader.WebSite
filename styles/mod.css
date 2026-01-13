@@ -133,3 +133,193 @@ code {
  padding: 0px 3px;
  margin: 0px;
 }
+a.link {
+	text-decoration: none;
+	background: linear-gradient(to right, #c2e150, #6eC421);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+.github-link {  }
+
+.github-link::before {
+	content: "";
+	background-image: url("https://i.gyazo.com/85e7ce9196ae635161fec921602903a7.png");
+	background-size: 1.5em 1.5em;
+	background-repeat: no-repeat;
+	width: 1.75em;
+	height: 1.5em;
+	top: .4em;
+	display: inline-block;
+	position: relative;
+}
+
+.source-link {  }
+
+.source-link::before {
+	content: "";
+	background-image: url("https://www.svgrepo.com/show/16272/programming-code.svg");
+	background-size: 1.5em 1.5em;
+	background-repeat: no-repeat;
+	width: 1.75em;
+	height: 1.5em;
+	top: .4em;
+	display: inline-block;
+	position: relative;
+	filter: invert(100%);
+}
+
+.discord-link {  }
+
+.discord-link::before {
+	content: "";
+	background-image: url("https://raw.githubusercontent.com/gilbarbara/logos/52addcaa18dfecb4df77f3ee0753dca6b98187ad/logos/discord-icon.svg");
+	background-size: 1.5em 1.5em;
+	background-repeat: no-repeat;
+	width: 1.75em;
+	height: 1.5em;
+	top: .4em;
+	display: inline-block;
+	position: relative;
+}
+
+.youtube-link {  }
+
+.youtube-link::before {
+	content: "";
+	background-image: url("https://raw.githubusercontent.com/gilbarbara/logos/52addcaa18dfecb4df77f3ee0753dca6b98187ad/logos/youtube-icon.svg");
+	background-size: 1.5em 1.5em;
+	background-repeat: no-repeat;
+	width: 1.75em;
+	height: 1.5em;
+	top: .4em;
+	display: inline-block;
+	position: relative;
+}
+
+.website-link {  }
+
+.website-link::before {
+	content: "";
+	background-image: url("https://www.svgrepo.com/show/478273/internet-3.svg");
+	background-size: 1.5em 1.5em;
+	background-repeat: no-repeat;
+	width: 1.75em;
+	height: 1.5em;
+	top: .4em;
+	display: inline-block;
+	position: relative;
+	filter: invert(100%);
+}
+
+.download-link {  }
+
+.download-link::before {
+	content: "";
+	background-image: url("https://www.svgrepo.com/show/140007/download-button.svg");
+	background-size: 1.5em 1.5em;
+	background-repeat: no-repeat;
+	width: 3em;
+	height: 1.5em;
+	display: inline-block;
+	position: relative;
+	filter: invert(100%);
+	top: .4em;
+}
+.width-60p { width: 60% }
+
+.width-full { width: 100% }
+
+.marginless { margin: 0; }
+
+.margin-10 { margin: 10px; }
+
+.margin-5-scalable { margin: .5em }
+
+.margin-10-scalable { margin: 1em; }
+
+.margin-sides-auto { margin-left: auto; margin-right: auto; }
+
+.margin-sides-10 { margin-left: 10px; margin-right: 10px; }
+
+.margin-bottom-20-scalable { margin-bottom: 2vw;  }
+
+.margin-bottom-10 { margin-bottom: 10px; }
+
+.margin-bottom-20 { margin-bottom: 20px; }
+
+.paddingless { padding: 0; }
+
+.padding-10 { padding: 10px; }
+
+.padding-10-scalable { padding: 1vw; }
+
+.inverted { filter: invert(100%); }
+
+.right-aligned { text-align: right; }
+
+.left-aligned { text-align: left; }
+
+.center-aligned { text-align: center; }
+
+.size-big { font-size: 22px; white-space: nowrap; }
+
+.size-big-scalable { font-size: 1.5em; white-space: nowrap; }
+
+.base-layout {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+}
+
+.navbar {
+	display: flex;
+	flex-direction: row;
+	width: 50%;
+	height: 70px;
+
+	font-size: 30px;
+
+	text-align: center;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+@media screen and (width < 950px) {
+	.navbar {
+		width: 100%;
+	}
+}
+
+.navbar-element {
+
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+
+	font-size: 12px;
+}
+
+@media screen {
+	@media (width < 450px) {
+		.navbar-element {
+			font-size: 10px;
+		}
+		.navbar {
+			font-size: 25px;
+		}
+	}
+	@media (width < 350px) {
+		.navbar-element {
+			font-size: 8px;
+		}
+	}
+}
+
+.icon-small {
+	width: 40px;
+}
