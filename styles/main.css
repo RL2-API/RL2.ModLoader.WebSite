@@ -5,7 +5,7 @@ body {
     font-size: 22px;
     margin: 0px;
     color: var(--text-color);
-    background: linear-gradient(var(--bg-darkener), var(--bg-darkener)), url(../assets/RL2-TitleBanner.png);
+    background: linear-gradient(var(--bg-darkener), var(--bg-darkener)), url(../assets/RL2-TitleBanner.webp);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
