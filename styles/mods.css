@@ -1,0 +1,109 @@
+body {
+    font-size: 22px;
+    background: var(--background);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+form.search {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 10px;
+}
+
+form.search input {
+    font-size: 20px;
+    width: 750px;
+    height: 30px;
+    background-color: #000;
+    color: var(--text-color);
+    border: none;
+    padding: 5px;
+}
+
+form.search button {
+    background-color: rgba(0, 0, 0, 1.0);
+    margin: 0px;
+    padding: 0px;
+    width: 40px;
+    height: 40px;
+    border: none;
+}
+
+form.search button img {
+    width: 26px;
+    height: 26px;
+    margin: 0px;
+    padding: 5px;
+    filter: invert(100%);
+}
+
+article {
+    width: 1000px;
+    height: 150px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: #000;
+    margin: 5px;
+}
+
+article section {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+}
+
+article section * {
+    margin: 0px;
+}
+
+article img {
+    height: 100%;
+    padding-right: 30px;
+}
+
+article section.title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+article section.title h3 {
+    font-size: 25px;
+    padding: 0px 10px 0px 5px;
+}
+
+section.pages {
+    display: flex;
+    flex-drection: row;
+    align-items: center;
+    gap: 20px;
+}
+
+section.pages a:has(button:disabled) {
+    cusrosr: default;
+    pointer-events: none;
+}
+
+section.pages button {
+    width: 30px;
+    font-size: 18px;
+    border: transparent;
+    background-color: rgb(200, 100, 0);
+    color: var(--text-color);
+    padding: 5px 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+section.pages button:disabled {
+    cursor: default;
+    pointer-events: none;
+    background-color: transparent;
+    color: transparent;
+}

@@ -3,13 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Mods - RL2.ModLoader</title>
-    <link href="styles/shared.css" rel="stylesheet">
+    <link href="/styles/shared.css" rel="stylesheet">
+    <link href="/styles/mods.css" rel="stylesheet">
 </head>
 <body>
 
-<form>
-    <input type="text" name="search" placeholder="Search" {% if filter.len() != 0 %} value={{ filter }} {% endif %} />
-    <button type="submit"></button>
+<form class="search">
+    <input type="text"
+        name="search"
+        placeholder="Search"
+        {% if filter.len() != 0 %}
+            value="{{ filter }}"
+        {% endif %}
+    />
+    <button type="submit">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Magnifying_glass_icon.svg" />
+    </button>
 </form>
 
 {% if mods.len() == 0 %}
@@ -20,12 +29,39 @@
 
     {% for item in mods %}
         <article>
-            <h3>{{ item.name }} by {{ item.author }}</h3>
-            <img src={{ item.icon_src }} />
-            <p>{{ item.short_desc }}</p>
+            <img 
+                {% if item.icon_src != "" %}
+                    src={{ item.icon_src }}
+                {% else %}
+                    src="https://static.wikia.nocookie.net/rogue-legacy-2/images/1/1b/DeathIcon_Eggplant_Basic.png"
+                {% endif %}
+            />
+            <section>
+                <section class="title">
+                    <h3>{{ item.name }}</h3><p>by {{ item.author }}</p>
+                </section>
+                <p>{{ item.short_desc }}</p>
+            <section>
         </article>
     {% endfor %}
 
+    {% if mods.len() < total_count %}
+        <section class="pages">
+            <a href="/?search={{ filter }}&page={{ page - 1 }}"><button
+                {% if page <= 1 %}
+                    disabled
+                {% endif %}
+            > < </button></a>
+
+            {{ page }}
+            
+            <a href="/?search={{ filter }}&page={{ page + 1 }}"><button
+                {% if page * crate::pages::MODS_PER_PAGE > total_count %}
+                    disabled
+                {% endif %}
+            > > </button></a>
+        </section>
+    {% endif %}
 {% endif %}
 
 </body>

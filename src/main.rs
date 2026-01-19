@@ -25,6 +25,7 @@ async fn main() -> Result<(), app::Error<'static>> {
     let router = axum::Router::new()
         .route("/", axum::routing::get(pages::ModList::get))
         .route("/api", axum::routing::get(pages::ApiHomepage::get))
+        .nest_service("/styles", tower_http::services::ServeDir::new("styles"))
         .with_state(std::sync::Arc::new(app::State { database }));
 
     println!("Serving the server at 127.0.0.1:{}", &port);
