@@ -8,12 +8,19 @@
 </head>
 <body>
 
-<form class="search">
+<form class="search" autocomplete="on">
     <input type="text"
         name="search"
         placeholder="Search"
         {% if filter.len() != 0 %}
             value="{{ filter }}"
+            {% if crate::pages::RELOAD_ON_INPUT %}
+                autofocus
+                onfocus="this.setSelectionRange(this.value.length, this.value.length);"
+            {% endif %}
+        {% endif %}
+        {% if crate::pages::RELOAD_ON_INPUT %}
+            oninput="submit();"
         {% endif %}
     />
     <button type="submit">

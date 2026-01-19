@@ -86,6 +86,7 @@ impl ModList {
 }
 
 pub const MODS_PER_PAGE: usize = 4;
+pub const RELOAD_ON_INPUT: bool = false;
 
 const MOD_LIST_FULL: &'static str = "
     SELECT info.name, info.icon_src, info.author, info.short_desc
