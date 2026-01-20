@@ -28,6 +28,7 @@
     </button>
 </form>
 
+<main>
 {% if mods.len() == 0 %}
 
     No mods found...
@@ -35,40 +36,46 @@
 {% else %}
 
     {% for item in mods %}
-        <article>
-            <img 
-                {% if item.icon_src != "" %}
-                    src={{ item.icon_src }}
-                {% else %}
-                    src="https://static.wikia.nocookie.net/rogue-legacy-2/images/1/1b/DeathIcon_Eggplant_Basic.png"
-                {% endif %}
-            />
+        <article class="mod-entry">
+            <div class="img-wrapper">
+                <img
+                    {% if item.icon_src != "" %}
+                        src={{ item.icon_src }}
+                    {% else %}
+                        src="https://static.wikia.nocookie.net/rogue-legacy-2/images/1/1b/DeathIcon_Eggplant_Basic.png"
+                    {% endif %}
+                />
+            </div>
             <section>
                 <section class="title">
-                    <h3>{{ item.name }}</h3><p>by {{ item.author }}</p>
+                    <p>
+                        <b>{{ item.name }}</b>
+                        <i>by {{ item.author }}</i>
+                    </p>
                 </section>
                 <p>{{ item.short_desc }}</p>
             <section>
         </article>
     {% endfor %}
+{% endif %}}
+</main>
 
-    {% if mods.len() < total_count %}
-        <section class="pages">
-            <a href="/?search={{ filter }}&page={{ page - 1 }}"><button
-                {% if page <= 1 %}
-                    disabled
-                {% endif %}
-            > < </button></a>
+{% if mods.len() < total_count %}
+    <section class="pages">
+        <a href="/?search={{ filter }}&page={{ page - 1 }}"><button
+            {% if page <= 1 %}
+                disabled
+            {% endif %}
+        > < </button></a>
 
-            {{ page }}
-            
-            <a href="/?search={{ filter }}&page={{ page + 1 }}"><button
-                {% if page * crate::pages::MODS_PER_PAGE > total_count %}
-                    disabled
-                {% endif %}
-            > > </button></a>
-        </section>
-    {% endif %}
+        {{ page }}
+
+        <a href="/?search={{ filter }}&page={{ page + 1 }}"><button
+            {% if page * crate::pages::MODS_PER_PAGE >= total_count %}
+                disabled
+            {% endif %}
+        > > </button></a>
+    </section>
 {% endif %}
 
 </body>
