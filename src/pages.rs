@@ -13,7 +13,7 @@ impl ApiHomepage {
 }
 
 #[derive(sqlx::FromRow, Clone)]
-pub struct ModData {
+pub struct ModListData {
     name: String,
     icon_src: String,
     author: String,
@@ -23,7 +23,7 @@ pub struct ModData {
 #[derive(askama::Template)]
 #[template(path = "mods.html")]
 pub struct ModList {
-    mods: std::vec::Vec<ModData>,
+    mods: std::vec::Vec<ModListData>,
     total_count: usize,
     filter: String,
     page: usize,
@@ -45,7 +45,7 @@ impl ModList {
             query.search.clone().unwrap_or("".to_owned()),
             query.page.unwrap_or(0)
         );
-        let mods: std::vec::Vec<ModData> = match (match query.search.clone() {
+        let mods: std::vec::Vec<ModListData> = match (match query.search.clone() {
             None => sqlx::query_as(MOD_LIST_FULL),
             Some(filter) => sqlx::query_as(MOD_LIST_FILTERED).bind(format!("{}%", filter)),
         })
