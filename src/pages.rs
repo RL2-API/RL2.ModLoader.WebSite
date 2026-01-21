@@ -40,18 +40,9 @@ impl ModList {
         state: axum::extract::State<std::sync::Arc<crate::app::State>>,
         query: axum::extract::Query<Search>,
     ) -> Result<axum::response::Html<String>, axum::http::StatusCode> {
-        let current_time: f64 = (std::time::SystemTime::now()
-            .duration_since(std::time::UNIX_EPOCH)
-            .unwrap_or_default()
-            .as_secs()
-            % (24 * 3600)) as f64
-            / 3600.0;
-        let hours = current_time.floor();
-        let minutes = ((current_time - hours) * 60.0).floor();
         println!(
-            "[{:?}:{:?}] GET '/' \n search={:?}&page={:?}",
-            hours as u64,
-            minutes as u64,
+            "{:?} GET '/search={:?}&page={:?}'",
+            get_time(),
             query.search.clone().unwrap_or("".to_owned()),
             query.page.unwrap_or(0)
         );
@@ -93,7 +84,33 @@ impl ModList {
     }
 }
 
-pub const MODS_PER_PAGE: usize = 6;
+#[derive(askama::Template)]
+#[template(path = "mod.html")]
+pub struct Mod {
+    // name: String,
+}
+
+// #[derive(serde::Deserialize)]
+// pub struct ModQuery {}
+
+impl Mod {
+    pub async fn get(
+        axum::extract::Path(name): axum::extract::Path<String>,
+        // state: axum::extract::State<std::sync::Arc<crate::app::State>>,
+        // query: axum::extract::Query<ModQuery>,
+    ) -> Result<axum::response::Html<String>, axum::http::StatusCode> {
+        println!("{:?} GET '/mod/{:?}'", get_time(), name);
+        let contents = match askama::Template::render(&Mod {
+            // name: query.name.clone(),
+        }) {
+            Ok(html) => html,
+            Err(_) => return Err(axum::http::StatusCode::INTERNAL_SERVER_ERROR),
+        };
+        Ok(axum::response::Html::from(contents))
+    }
+}
+
+pub const MODS_PER_PAGE: usize = 4;
 pub const RELOAD_ON_INPUT: bool = false;
 
 const MOD_LIST_FULL: &'static str = "
@@ -110,3 +127,15 @@ const MOD_LIST_FILTERED: &'static str = r#"
     GROUP BY info.name
     ORDER BY MAX(versions.id) DESC
 "#;
+
+pub fn get_time() -> String {
+    let current_time: f64 = (std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap_or_default()
+        .as_secs()
+        % (24 * 3600)) as f64
+        / 3600.0;
+    let hours = current_time.floor();
+    let minutes = ((current_time - hours) * 60.0).floor();
+    format!("[{:?}:{:?}]", hours as u64, minutes as u64)
+}

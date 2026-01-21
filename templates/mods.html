@@ -36,6 +36,7 @@
 {% else %}
 
     {% for item in mods %}
+        <a href="/mod/{{ item.name }}">
         <article class="mod-entry">
             <div class="img-wrapper">
                 <img
@@ -56,6 +57,7 @@
                 <p>{{ item.short_desc }}</p>
             <section>
         </article>
+        </a>
     {% endfor %}
 {% endif %}
 </main>

@@ -2,7 +2,7 @@ body {
     font-size: 22px;
     background:
         linear-gradient(var(--bg-darkener), var(--bg-darkener)),
-        url(https://raw.githubusercontent.com/RL2-API/RL2.ModLoader.WebSite/refs/heads/main/assets/RL2-TitleBanner.webp);
+        url(../assets/RL2-TitleBanner.webp);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -79,6 +79,10 @@ article.mod-entry {
     border-radius: 30px;
 }
 
+article.mod-entry:hover {
+    background: #2C1C1C;
+}
+
 article.mod-entry section {
     display: flex;
     flex-direction: column;
@@ -133,8 +137,9 @@ section.pages a:has(button:disabled) {
     pointer-events: none;
 }
 
-section.pages a {
+a {
     text-decoration: none;
+    color: var(--text-color);
 }
 
 section.pages button {
