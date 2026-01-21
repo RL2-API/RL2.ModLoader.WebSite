@@ -57,24 +57,45 @@
             <section>
         </article>
     {% endfor %}
-{% endif %}}
+{% endif %}
 </main>
 
 {% if mods.len() < total_count %}
     <section class="pages">
+        <a href="/?search={{ filter }}"><button
+            {% if page <= 1 %}
+                disabled
+            {% endif %}
+        > |< </button></a>
         <a href="/?search={{ filter }}&page={{ page - 1 }}"><button
             {% if page <= 1 %}
                 disabled
             {% endif %}
         > < </button></a>
 
-        {{ page }}
+        {% for i in -2..3 %}
+            {% let page_num = (page as i64) + i %}
+            {%
+                if
+                    page_num >= 1 &&
+                    (total_count + crate::pages::MODS_PER_PAGE) as i64 > page_num * (crate::pages::MODS_PER_PAGE as i64)
+            %}
+                <span id="page-{{ i.abs() }}">
+                    {{ page_num }}
+                </span>
+            {% endif %}
+        {% endfor %}
 
         <a href="/?search={{ filter }}&page={{ page + 1 }}"><button
             {% if page * crate::pages::MODS_PER_PAGE >= total_count %}
                 disabled
             {% endif %}
         > > </button></a>
+        <a href="/?search={{ filter }}&page={{ total_count / crate::pages::MODS_PER_PAGE }}"><button
+            {% if page * crate::pages::MODS_PER_PAGE >= total_count %}
+                disabled
+            {% endif %}
+        > >| </button></a>
     </section>
 {% endif %}
 
