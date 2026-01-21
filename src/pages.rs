@@ -40,8 +40,18 @@ impl ModList {
         state: axum::extract::State<std::sync::Arc<crate::app::State>>,
         query: axum::extract::Query<Search>,
     ) -> Result<axum::response::Html<String>, axum::http::StatusCode> {
+        let current_time: f64 = (std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap_or_default()
+            .as_secs()
+            % (24 * 3600)) as f64
+            / 3600.0;
+        let hours = current_time.floor();
+        let minutes = ((current_time - hours) * 60.0).floor();
         println!(
-            "GET '/' \n search = {:?} \n page = {:?}",
+            "[{:?}:{:?}] GET '/' \n search={:?}&page={:?}",
+            hours as u64,
+            minutes as u64,
             query.search.clone().unwrap_or("".to_owned()),
             query.page.unwrap_or(0)
         );
@@ -49,8 +59,6 @@ impl ModList {
             None => sqlx::query_as(MOD_LIST_FULL),
             Some(filter) => sqlx::query_as(MOD_LIST_FILTERED).bind(format!("{}%", filter)),
         })
-        // .bind(MODS_PER_PAGE)
-        // .bind(query.page.unwrap_or(0) * MODS_PER_PAGE)
         .persistent(true)
         .fetch_all(&*state.database)
         .await
@@ -85,7 +93,7 @@ impl ModList {
     }
 }
 
-pub const MODS_PER_PAGE: usize = 4;
+pub const MODS_PER_PAGE: usize = 6;
 pub const RELOAD_ON_INPUT: bool = false;
 
 const MOD_LIST_FULL: &'static str = "
