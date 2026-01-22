@@ -27,11 +27,12 @@ impl ModList {
         query: axum::extract::Query<Search>,
     ) -> Result<axum::response::Html<String>, axum::http::StatusCode> {
         println!(
-            "{:?} GET '/search={:?}&page={:?}'",
+            "{} GET /search={}&page={}",
             get_time(),
             query.search.clone().unwrap_or("".to_owned()),
             query.page.unwrap_or(0)
         );
+
         let mods: std::vec::Vec<ModListData> = match (match query.search.clone() {
             None => sqlx::query_as(MOD_LIST_FULL),
             Some(filter) => sqlx::query_as(MOD_LIST_FILTERED).bind(format!("{}%", filter)),
@@ -73,7 +74,7 @@ impl ModList {
 #[derive(askama::Template)]
 #[template(path = "mod.html")]
 pub struct Mod {
-    // name: String,
+    name: String,
 }
 
 // #[derive(serde::Deserialize)]
@@ -85,10 +86,8 @@ impl Mod {
         // state: axum::extract::State<std::sync::Arc<crate::app::State>>,
         // query: axum::extract::Query<ModQuery>,
     ) -> Result<axum::response::Html<String>, axum::http::StatusCode> {
-        println!("{:?} GET '/mod/{:?}'", get_time(), name);
-        let contents = match askama::Template::render(&Mod {
-            // name: query.name.clone(),
-        }) {
+        println!("{} GET /mod/{}", get_time(), name);
+        let contents = match askama::Template::render(&Mod { name }) {
             Ok(html) => html,
             Err(_) => return Err(axum::http::StatusCode::INTERNAL_SERVER_ERROR),
         };
