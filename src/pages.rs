@@ -1,17 +1,3 @@
-#[derive(askama::Template)]
-#[template(path = "api_homepage.html")]
-pub struct ApiHomepage();
-
-impl ApiHomepage {
-    pub async fn get() -> Result<axum::response::Html<String>, axum::http::StatusCode> {
-        let contents = match askama::Template::render(&ApiHomepage {}) {
-            Ok(html) => html,
-            Err(_) => return Err(axum::http::StatusCode::INTERNAL_SERVER_ERROR),
-        };
-        Ok(axum::response::Html::from(contents))
-    }
-}
-
 #[derive(sqlx::FromRow, Clone)]
 pub struct ModListData {
     name: String,
