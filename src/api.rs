@@ -115,7 +115,6 @@ pub async fn get(
                 return Err(axum::http::StatusCode::INTERNAL_SERVER_ERROR);
             }
         };
-
         return Ok(axum::response::Json(Response::ModList(mod_list)));
     }
 
