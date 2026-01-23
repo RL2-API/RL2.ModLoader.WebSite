@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mods - RL2.ModLoader</title>
+    <link href="/styles/shared.css" rel="stylesheet">
+    <link href="/styles/mods.css" rel="stylesheet">
+</head>
+<body>
+
+<form class="search" autocomplete="on">
+    <input type="text"
+        name="search"
+        placeholder="Search"
+        {% if filter.len() != 0 %}
+            value="{{ filter }}"
+            {% if crate::pages::RELOAD_ON_INPUT %}
+                autofocus
+                onfocus="this.setSelectionRange(this.value.length, this.value.length);"
+            {% endif %}
+        {% endif %}
+        {% if crate::pages::RELOAD_ON_INPUT %}
+            oninput="submit();"
+        {% endif %}
+    />
+    <button type="submit">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Magnifying_glass_icon.svg" />
+    </button>
+</form>
+
+<main>
+{% if mods.len() == 0 %}
+
+    No mods found...
+
+{% else %}
+
+    {% for item in mods %}
+        <a href="/mod/{{ item.name }}">
+        <article class="mod-entry">
+            <div class="img-wrapper">
+                <img
+                    {% if item.icon_src != "" %}
+                        src={{ item.icon_src }}
+                    {% else %}
+                        src="https://static.wikia.nocookie.net/rogue-legacy-2/images/1/1b/DeathIcon_Eggplant_Basic.png"
+                    {% endif %}
+                />
+            </div>
+            <section>
+                <section class="title">
+                    <p>
+                        <b>{{ item.name }}</b>
+                        <i>by {{ item.author }}</i>
+                    </p>
+                </section>
+                <p>{{ item.short_desc }}</p>
+            <section>
+        </article>
+        </a>
+    {% endfor %}
+{% endif %}
+</main>
+
+{% if mods.len() < total_count %}
+    <section class="pages">
+        <a href="/?search={{ filter }}"><button
+            {% if page <= 1 %}
+                disabled
+            {% endif %}
+        > |< </button></a>
+        <a href="/?search={{ filter }}&page={{ page - 1 }}"><button
+            {% if page <= 1 %}
+                disabled
+            {% endif %}
+        > < </button></a>
+
+        {% for i in -2..3 %}
+            {% let page_num = (page as i64) + i %}
+            {%
+                if
+                    page_num >= 1 &&
+                    (total_count + crate::pages::MODS_PER_PAGE) as i64 > page_num * (crate::pages::MODS_PER_PAGE as i64)
+            %}
+                <span id="page-{{ i.abs() }}">
+                    {{ page_num }}
+                </span>
+            {% endif %}
+        {% endfor %}
+
+        <a href="/?search={{ filter }}&page={{ page + 1 }}"><button
+            {% if page * crate::pages::MODS_PER_PAGE >= total_count %}
+                disabled
+            {% endif %}
+        > > </button></a>
+        <a href="/?search={{ filter }}&page={{ total_count / crate::pages::MODS_PER_PAGE }}"><button
+            {% if page * crate::pages::MODS_PER_PAGE >= total_count %}
+                disabled
+            {% endif %}
+        > >| </button></a>
+    </section>
+{% endif %}
+
+</body>
+</html>

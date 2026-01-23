@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mods - RL2.ModLoader</title>
+    <link href="/styles/shared.css" rel="stylesheet">
+</head>
+<body>
+
+- GET <code>/api/v1/mod-list</code>:
+<ul>
+    <li>
+        Returns a JSON list of all mods from the database, or <code>{{ axum::http::StatusCode::INTERNAL_SERVER_ERROR }}</code>
+    </li>
+    <li> JSON schema for every entry:
+        <pre>
+{
+    "name"       : string
+    "author"     : string
+    "icon_src"   : string or null
+    "short_desc" : string
+}
+        </pre>
+    </li>
+</ul>
+- GET <code>/api/v1/mod/{name}</code>:
+<ul>
+    <li>
+        Returns a JSON object representing info about the mod with the specified name
+    </li>
+    <li> JSON schema of the return value
+        <pre>
+{
+    "mod_info" : {
+        "name"      : string
+        "author"    : string
+        "icon_src"  : string or null
+        "long_desc" : string (markdown)
+    }
+    versions: list of {
+        "link"      : string (download file URL)
+        "version"   : string
+        "changelog" : string (markdown)
+    }
+}
+        </pre>
+    </li>
+</ul>
+</body>
+</html>

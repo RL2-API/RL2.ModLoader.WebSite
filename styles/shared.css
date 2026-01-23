@@ -1,7 +1,7 @@
 :root {
     --text-color: rgb(200, 200, 200);
     --background: #130501;
-    --bg-darkener: rgba(0, 0, 0, 0.75);
+    --bg-darkener-er: rgba(0, 0, 0, 0.75);
+    --bg-darkener: rgba(0, 0, 0, 0.50);
 }
-
 
