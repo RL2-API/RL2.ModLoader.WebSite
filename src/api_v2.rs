@@ -10,6 +10,8 @@ pub struct ModListRequest {
     mods_per_page: Option<u32>,
 }
 
+const MODS_PER_PAGE: u32 = 10;
+
 pub async fn mod_list(
     axum::extract::Path(page): axum::extract::Path<u32>,
     axum::extract::State(state): axum::extract::State<std::sync::Arc<crate::app::State>>,
@@ -17,13 +19,10 @@ pub async fn mod_list(
 ) -> Result<axum::response::Json<ModList>, (axum::http::StatusCode, String)> {
     println!("{} GET /api/v2/mod-list/{}", crate::pages::get_time(), page);
 
-    let mut mods_per_page = 10;
+    let mut mods_per_page = MODS_PER_PAGE;
     if let Some(axum::Json(list_req)) = req {
-        println!(
-            "    mods_per_page: {:?}",
-            list_req.mods_per_page.unwrap_or(10)
-        );
-        mods_per_page = list_req.mods_per_page.unwrap_or(10);
+        mods_per_page = list_req.mods_per_page.unwrap_or(MODS_PER_PAGE);
+        println!("    mods_per_page: {:?}", mods_per_page);
     }
 
     let data: Vec<crate::api_v1::DataShort> = match sqlx::query_as(
