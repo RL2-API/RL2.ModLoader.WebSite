@@ -2,7 +2,7 @@
     --text-color: rgb(200, 200, 200);
     --background: #130501;
     --bg-darkener-er: rgba(0, 0, 0, 0.75);
-    --bg-darkener: rgba(0, 0, 0, 0.50);
+    --bg-darkener: rgba(0, 0, 0, 0.60);
 }
 
 body {
@@ -21,4 +21,5 @@ body {
     align-items: center;
     padding: 0px;
     margin: 0px;
+    text-align: center;
 }
