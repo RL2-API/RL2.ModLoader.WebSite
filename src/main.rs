@@ -1,6 +1,10 @@
-mod api;
+mod api_v1;
+mod api_v2;
 mod app;
 mod pages;
+
+use axum::response::Redirect;
+use axum::routing::get;
 
 #[tokio::main]
 async fn main() -> Result<(), app::Error<'static>> {
@@ -24,11 +28,20 @@ async fn main() -> Result<(), app::Error<'static>> {
     };
 
     let router = axum::Router::new()
-        .route("/", axum::routing::get(pages::ModList::get))
-        .route("/mod/{name}", axum::routing::get(pages::Mod::get))
-        .route("/api", axum::routing::get(api::Homepage::get))
-        .route("/api/", axum::routing::get(api::Homepage::get))
-        .route("/api/{*endpoint}", axum::routing::get(api::get))
+        .route("/mods", get(pages::ModList::get))
+        .route("/mod/{name}", get(pages::Mod::get))
+        .nest(
+            "/api",
+            axum::Router::new()
+                .route("/v2", get(axum::http::StatusCode::OK))
+                .route("/v2/mod-list", get(Redirect::to("/api/v2/mod-list/0")))
+                .route("/v2/mod-list/{page}", get(api_v2::mod_list))
+                // Legacy routes
+                .route("/", get(api_v1::Homepage::get))
+                .route("/v1", get(api_v1::Homepage::get))
+                .route("/{end}", get(api_v1::get))
+                .route("/v1/{*end}", get(api_v1::get)),
+        )
         .nest_service("/styles", tower_http::services::ServeDir::new("styles"))
         .nest_service("/assets", tower_http::services::ServeDir::new("assets"))
         .with_state(std::sync::Arc::new(app::State { database }));

@@ -38,7 +38,11 @@ pub async fn get(
     axum::extract::Path(endpoint): axum::extract::Path<String>,
     state: axum::extract::State<std::sync::Arc<crate::app::State>>,
 ) -> Result<axum::response::Json<Response>, axum::http::StatusCode> {
-    println!("{} GET /api/{}", crate::pages::get_time(), endpoint.clone());
+    println!(
+        "{} GET /api/v1/{}",
+        crate::pages::get_time(),
+        endpoint.clone()
+    );
 
     if let Some(mod_name) = endpoint.strip_prefix("mod/") {
         if mod_name == "" {
@@ -127,7 +131,7 @@ pub struct Homepage();
 
 impl Homepage {
     pub async fn get() -> Result<axum::response::Html<String>, axum::http::StatusCode> {
-        println!("{} GET /api", crate::pages::get_time());
+        println!("{} GET /api/v1", crate::pages::get_time());
         let contents = match askama::Template::render(&Homepage {}) {
             Ok(html) => html,
             Err(_) => return Err(axum::http::StatusCode::INTERNAL_SERVER_ERROR),
