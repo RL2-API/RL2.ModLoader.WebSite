@@ -62,18 +62,3 @@ pub async fn mod_list(
         status: axum::http::StatusCode::OK.as_u16(),
     }));
 }
-
-#[derive(askama::Template)]
-#[template(path = "api_v2.html")]
-pub struct Homepage();
-
-impl Homepage {
-    pub async fn get() -> Result<axum::response::Html<String>, axum::http::StatusCode> {
-        println!("{} GET /api/v2", crate::pages::get_time());
-        let contents = match askama::Template::render(&Homepage {}) {
-            Ok(html) => html,
-            Err(_) => return Err(axum::http::StatusCode::INTERNAL_SERVER_ERROR),
-        };
-        Ok(axum::response::Html::from(contents))
-    }
-}
