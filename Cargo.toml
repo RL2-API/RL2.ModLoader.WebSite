@@ -14,4 +14,4 @@ serde = { version = "1.0.228", default-features = false, features = ["derive"] }
 askama = { version = "0.14.0", default-features = false, features = ["derive", "alloc"] }
 sqlx = { version = "0.8.6", default-features = false, features = ["sqlite", "derive", "runtime-tokio"] }
 tokio = { version = "1.48.0", default-features = false, features = ["sync", "net", "macros", "rt-multi-thread"] }
-tower-http = { version = "0.6.7", default-features = false, features = ["fs"] }
+tower-http = { version = "0.6.7", default-features = false, features = ["fs", "cors"] }

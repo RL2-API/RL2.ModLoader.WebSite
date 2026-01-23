@@ -1,52 +1,37 @@
 <html lang="en">
 <head>
-    <title>
-        API v2
-    </title
+    <meta charset="UTF-8">
+    <title>API v2 - RL2.ModLoader</title>
+    <link href="/styles/shared.css" rel="stylesheet">
+    <link href="/styles/api.css" rel="stylesheet">
 </head>
-
 <body>
 
-- GET <code>/api/v2/mod-list/{page}</code>
-<ul>
-    <li>
-        Returns a paginated list of basic mod info.
-    </li>
-    <li>
-        The <var>page</var> parameter is optional, and by default is 0.
-    </li>
-    <li>
-        Accepts an optional JSON payload with the following schema:
-        <pre>
-{
-    "mods_per_page"  : u32        [default = 10]
-}
-        </pre>
-        <!-- This payload allows customising the page length. -->
-    </li>
-    <li>
-        The return value JSON schema:
-        <pre>
-// Success
-{
-    "status" : u16  [default = 200]
-    "page"   : u32
-    "data"   : list of {
+<main>
+<article>
+    <h2>GET <code>/api/v2/mod-list/{page}</code></h2>
+    Returns a page of the list of basic mod info.
+
+    <pre>
+// 200: Data found
+[
+    {
         "name"         : string
         "author"       : string
         "icon_src"     : string or null
         "short_desc"   : string
     }
+]
+
+// 404: Page not found
+{
+    "message"  : string
 }
 
-// Failure
-{
-    "status" : u16
-    "error"  : string
-}
-        </pre>
-    </li>
-</ul>
+    </pre>
+</article>
+
+</main>
 
 </body>
 </html>
