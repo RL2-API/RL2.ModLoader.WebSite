@@ -9,7 +9,7 @@ body {
     font-size: 22px;
     background:
         linear-gradient(var(--bg-darkener), var(--bg-darkener)),
-        url(../assets/RL2-TitleBanner-950x560.webp);
+        url(../assets/RL2-TitleBanner-960x540.webp);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;

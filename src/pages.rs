@@ -95,7 +95,7 @@ impl Mod {
     }
 }
 
-pub const MODS_PER_PAGE: usize = 1;
+pub const MODS_PER_PAGE: usize = 6;
 pub const RELOAD_ON_INPUT: bool = false;
 
 const MOD_LIST_FULL: &'static str = "
