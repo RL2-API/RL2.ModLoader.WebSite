@@ -33,7 +33,8 @@ async fn main() -> Result<(), app::Error<'static>> {
         .nest(
             "/api",
             axum::Router::new()
-                .route("/v2", get(axum::http::StatusCode::OK))
+                .route("/v2", get(api_v2::Homepage::get))
+                .route("/v2/", get(Redirect::to("/api/v2")))
                 .route("/v2/mod-list", get(Redirect::to("/api/v2/mod-list/0")))
                 .route("/v2/mod-list/{page}", get(api_v2::mod_list))
                 // Legacy routes

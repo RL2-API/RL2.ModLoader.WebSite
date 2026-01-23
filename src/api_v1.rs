@@ -9,7 +9,7 @@ pub enum Response {
 pub struct DataShort {
     name: String,
     author: String,
-    icon_src: String,
+    icon_src: Option<String>,
     short_desc: String,
 }
 
@@ -23,7 +23,7 @@ pub struct DataFull {
 pub struct ModInfoFull {
     name: String,
     author: String,
-    icon_src: String,
+    icon_src: Option<String>,
     long_desc: String,
 }
 
@@ -126,7 +126,7 @@ pub async fn get(
 }
 
 #[derive(askama::Template)]
-#[template(path = "api_homepage.html")]
+#[template(path = "api_v1.html")]
 pub struct Homepage();
 
 impl Homepage {

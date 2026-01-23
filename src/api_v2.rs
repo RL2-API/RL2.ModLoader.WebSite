@@ -1,4 +1,10 @@
 #[derive(serde::Serialize)]
+pub struct Error {
+    status: u16,
+    error: String,
+}
+
+#[derive(serde::Serialize)]
 pub struct ModList {
     status: u16,
     page: u32,
@@ -16,7 +22,7 @@ pub async fn mod_list(
     axum::extract::Path(page): axum::extract::Path<u32>,
     axum::extract::State(state): axum::extract::State<std::sync::Arc<crate::app::State>>,
     req: Option<axum::extract::Json<ModListRequest>>,
-) -> Result<axum::response::Json<ModList>, (axum::http::StatusCode, String)> {
+) -> Result<axum::Json<ModList>, axum::Json<Error>> {
     println!("{} GET /api/v2/mod-list/{}", crate::pages::get_time(), page);
 
     let mut mods_per_page = MODS_PER_PAGE;
@@ -42,14 +48,32 @@ pub async fn mod_list(
     {
         Ok(rows) => rows,
         Err(e) => {
-            let err = format!("Database error: {}", e);
-            println!("{}", err);
-            return Err((axum::http::StatusCode::INTERNAL_SERVER_ERROR, err));
+            let error = format!("Database error: {}", e);
+            println!("{}", error);
+            return Err(axum::Json(Error {
+                status: axum::http::StatusCode::INTERNAL_SERVER_ERROR.as_u16(),
+                error,
+            }));
         }
     };
-    return Ok(axum::response::Json(ModList {
+    return Ok(axum::Json(ModList {
         page,
         data,
         status: axum::http::StatusCode::OK.as_u16(),
     }));
+}
+
+#[derive(askama::Template)]
+#[template(path = "api_v2.html")]
+pub struct Homepage();
+
+impl Homepage {
+    pub async fn get() -> Result<axum::response::Html<String>, axum::http::StatusCode> {
+        println!("{} GET /api/v2", crate::pages::get_time());
+        let contents = match askama::Template::render(&Homepage {}) {
+            Ok(html) => html,
+            Err(_) => return Err(axum::http::StatusCode::INTERNAL_SERVER_ERROR),
+        };
+        Ok(axum::response::Html::from(contents))
+    }
 }
