@@ -64,12 +64,12 @@
 
 {% if mods.len() < total_count %}
     <section class="pages">
-        <a href="/?search={{ filter }}"><button
+        <a href="/mods?search={{ filter }}"><button
             {% if page <= 1 %}
                 disabled
             {% endif %}
         > |< </button></a>
-        <a href="/?search={{ filter }}&page={{ page - 1 }}"><button
+        <a href="/mods?search={{ filter }}&page={{ page - 1 }}"><button
             {% if page <= 1 %}
                 disabled
             {% endif %}
@@ -88,12 +88,12 @@
             {% endif %}
         {% endfor %}
 
-        <a href="/?search={{ filter }}&page={{ page + 1 }}"><button
+        <a href="/mods?search={{ filter }}&page={{ page + 1 }}"><button
             {% if page * crate::pages::MODS_PER_PAGE >= total_count %}
                 disabled
             {% endif %}
         > > </button></a>
-        <a href="/?search={{ filter }}&page={{ total_count / crate::pages::MODS_PER_PAGE }}"><button
+        <a href="/mods?search={{ filter }}&page={{ total_count.div_ceil(crate::pages::MODS_PER_PAGE) }}"><button
             {% if page * crate::pages::MODS_PER_PAGE >= total_count %}
                 disabled
             {% endif %}

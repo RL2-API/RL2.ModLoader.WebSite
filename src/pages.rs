@@ -27,7 +27,7 @@ impl ModList {
         query: axum::extract::Query<Search>,
     ) -> Result<axum::response::Html<String>, axum::http::StatusCode> {
         println!(
-            "{} GET /search={}&page={}",
+            "{} GET /mods?search={}&page={}",
             get_time(),
             query.search.clone().unwrap_or("".to_owned()),
             query.page.unwrap_or(0)
@@ -95,7 +95,7 @@ impl Mod {
     }
 }
 
-pub const MODS_PER_PAGE: usize = 4;
+pub const MODS_PER_PAGE: usize = 1;
 pub const RELOAD_ON_INPUT: bool = false;
 
 const MOD_LIST_FULL: &'static str = "

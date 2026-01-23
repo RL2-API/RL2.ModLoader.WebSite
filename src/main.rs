@@ -5,7 +5,7 @@ mod pages;
 
 use axum::response::Redirect;
 use axum::routing::get;
-use tower_http::services::{ServeDir, ServeFile};
+use tower_http::services::ServeFile;
 
 #[tokio::main]
 async fn main() -> Result<(), app::Error<'static>> {
@@ -29,6 +29,7 @@ async fn main() -> Result<(), app::Error<'static>> {
     };
 
     let router = axum::Router::new()
+        .route_service("/", ServeFile::new("static/index.html"))
         .route("/mods", get(pages::ModList::get))
         .route("/mod/{name}", get(pages::Mod::get))
         .nest(

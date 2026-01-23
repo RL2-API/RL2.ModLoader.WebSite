@@ -5,3 +5,20 @@
     --bg-darkener: rgba(0, 0, 0, 0.50);
 }
 
+body {
+    font-size: 22px;
+    background:
+        linear-gradient(var(--bg-darkener), var(--bg-darkener)),
+        url(../assets/RL2-TitleBanner-950x560.webp);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center, center;
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    margin: 0px;
+}
