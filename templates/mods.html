@@ -36,16 +36,10 @@
 {% else %}
 
     {% for item in mods %}
-        <a href="/mod/{{ item.name }}">
+        <a href="/mod/{{ item.name }}?p={{ page }}&f={{ filter }}">
         <article class="mod-entry">
             <div class="img-wrapper">
-                <img
-                    {% if item.icon_src != "" %}
-                        src={{ item.icon_src }}
-                    {% else %}
-                        src="https://static.wikia.nocookie.net/rogue-legacy-2/images/1/1b/DeathIcon_Eggplant_Basic.png"
-                    {% endif %}
-                />
+                <img src="{{ item.icon_src.clone().unwrap_or("/assets/DefaultModIcon-158x158.webp".to_string()) }}"/>
             </div>
             <section>
                 <section class="title">

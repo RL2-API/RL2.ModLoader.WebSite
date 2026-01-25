@@ -1,7 +1,7 @@
 #[derive(sqlx::FromRow, Clone)]
 pub struct ModListData {
     name: String,
-    icon_src: String,
+    icon_src: Option<String>,
     author: String,
     short_desc: String,
 }
@@ -75,19 +75,101 @@ impl ModList {
 #[template(path = "mod.html")]
 pub struct Mod {
     name: String,
+    info: ModData,
+    versions: Vec<Version>,
+    q: ModQuery,
 }
 
-// #[derive(serde::Deserialize)]
-// pub struct ModQuery {}
+#[derive(sqlx::FromRow)]
+pub struct ModData {
+    author: String,
+    icon_src: Option<String>,
+    long_desc: String,
+}
+
+#[derive(sqlx::FromRow)]
+pub struct Version {
+    link: String,
+    version: String,
+    changelog: String,
+}
+
+#[derive(serde::Deserialize)]
+pub struct ModQuery {
+    changelog: Option<bool>,
+    p: Option<u32>,
+    f: Option<String>,
+}
 
 impl Mod {
     pub async fn get(
         axum::extract::Path(name): axum::extract::Path<String>,
-        // state: axum::extract::State<std::sync::Arc<crate::app::State>>,
-        // query: axum::extract::Query<ModQuery>,
+        state: axum::extract::State<std::sync::Arc<crate::app::State>>,
+        axum::extract::Query(query): axum::extract::Query<ModQuery>,
     ) -> Result<axum::response::Html<String>, axum::http::StatusCode> {
-        println!("{} GET /mod/{}", get_time(), name);
-        let contents = match askama::Template::render(&Mod { name }) {
+        let changelog = query.changelog.unwrap_or(false);
+        println!(
+            "{} GET /mod/{}?changelog={}",
+            get_time(),
+            name.clone(),
+            changelog
+        );
+
+        let info: ModData = match sqlx::query_as(
+            "
+                SELECT author, icon_src, long_desc
+                FROM info
+                WHERE name LIKE ?
+            ",
+        )
+        .bind(name.clone())
+        .persistent(true)
+        .fetch_one(&*state.database)
+        .await
+        {
+            Ok(rows) => rows,
+            Err(e) => {
+                println!("Database error in '/mod/{}': {}", name, e);
+                return Err(axum::http::StatusCode::INTERNAL_SERVER_ERROR);
+            }
+        };
+
+        let versions: Vec<Version> = match sqlx::query_as(
+            "
+                SELECT link, version, changelog
+                FROM versions
+                WHERE name LIKE ?
+                ORDER BY version DESC
+            ",
+        )
+        .bind(name.clone())
+        .persistent(true)
+        .fetch_all(&*state.database)
+        .await
+        {
+            Ok(rows) => rows
+                .into_iter()
+                .map(|ver: Version| Version {
+                    changelog: markdown::to_html_with_options(
+                        ver.changelog.replace("\\n", "\n").as_str(),
+                        &markdown::Options::gfm(),
+                    )
+                    .unwrap_or("ERROR. Please report".to_string()),
+                    ..ver
+                })
+                .collect(),
+            Err(e) => {
+                println!("Database error in '/mod/{}': {}", name, e);
+                return Err(axum::http::StatusCode::INTERNAL_SERVER_ERROR);
+            }
+        };
+
+        let contents = match askama::Template::render(&Mod {
+            name,
+            info,
+            versions,
+            q: query,
+        }) {
             Ok(html) => html,
             Err(_) => return Err(axum::http::StatusCode::INTERNAL_SERVER_ERROR),
         };

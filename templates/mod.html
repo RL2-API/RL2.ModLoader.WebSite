@@ -8,5 +8,62 @@
 </head>
 <body>
 
+{% let changelog = q.changelog.unwrap_or(false) %}
+{% let page = q.p.unwrap_or(1) %}
+{% let filter = q.f.clone().unwrap_or("".to_string()) %}
+<a href="/mods?page={{ page }}&search={{ filter }}"><button id="back">
+    <
+</button></a>
+<main>
+<section id="persist">
+    <section id="mod-info">
+        <img src="{{ info.icon_src.clone().unwrap_or("/assets/DefaultModIcon-158x158.webp".to_string()) }}" />
+        <h1>{{ name }}</h1>
+        <h2>{{ info.author }}</h2>
+    </section>
+
+    <section id="versions">
+        {% for entry in versions %}
+        <article>
+            <h3>v{{ entry.version }}</h3>
+        </article>
+        {% endfor %}
+    </section>
+</section>
+
+<section id="selected-data">
+    <a href="/mod/{{ name }}?p={{ page }}&f={{ filter }}">
+        <button {% if !changelog %} disabled {% endif %}>
+            Description
+        </button>
+    </a>
+
+
+    <a href="/mod/{{ name }}?changelog=true&p={{ page }}&f={{ filter }}">
+        <button {% if changelog %} disabled {% endif %} onload="window.history.replaceState(null);">
+            Changelog
+        </button>
+    </a>
+
+    {% if changelog %}
+        <section id="changelogs">
+        {% for entry in versions %}
+            <h3 id="{{ entry.version }}">{{ entry.version }}</h3>
+            {% if entry.changelog != "" %}
+                <p>{{ entry.changelog | safe }}</p>
+            {% else %}
+                <em>No changelog</em>
+            {% endif %}
+        {% endfor %}
+        </section>
+    {% else %}
+        <section id="description">
+            {{ info.long_desc | safe }}
+        </section>
+    {% endif %}
+</section>
+
+</main>
+
 </body>
 </html>
