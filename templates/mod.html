@@ -25,25 +25,29 @@
     <section id="versions">
         {% for entry in versions %}
         <article>
-            <h3>v{{ entry.version }}</h3>
+            <a href="{{ entry.link }}" class="download">
+                <p>v{{ entry.version }}</p>
+            </a>
         </article>
         {% endfor %}
     </section>
 </section>
 
 <section id="selected-data">
-    <a href="/mod/{{ name }}?p={{ page }}&f={{ filter }}">
-        <button {% if !changelog %} disabled {% endif %}>
-            Description
-        </button>
-    </a>
+    <section id="buttons">
+        <a href="/mod/{{ name }}?p={{ page }}&f={{ filter }}">
+            <button {% if !changelog %} disabled {% endif %}>
+                Description
+            </button>
+        </a>
 
 
-    <a href="/mod/{{ name }}?changelog=true&p={{ page }}&f={{ filter }}">
-        <button {% if changelog %} disabled {% endif %} onload="window.history.replaceState(null);">
-            Changelog
-        </button>
-    </a>
+        <a href="/mod/{{ name }}?changelog=true&p={{ page }}&f={{ filter }}">
+            <button {% if changelog %} disabled {% endif %} onload="window.history.replaceState(null);">
+                Changelog
+            </button>
+        </a>
+    </section>
 
     {% if changelog %}
         <section id="changelogs">

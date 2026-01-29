@@ -125,7 +125,7 @@ a {
     color: var(--text-color);
 }
 
-section.pages button {
+button {
     width: 32px;
     height: 32px;
     font-size: 18px;
@@ -137,11 +137,24 @@ section.pages button {
     display: flex;
     align-items: center;
     justify-content: center;
-}
+    text-shadow:
+         1px  1px  black,
+         1px -1px  black,
+        -1px  1px  black,
+        -1px -1px  black;}
 
 section.pages button:disabled {
     cursor: default;
     pointer-events: none;
     background-color: transparent;
     color: transparent;
+}
+
+#back {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  border-radius: 50px;
+  width: 40px;
+  height: 40px;
 }
