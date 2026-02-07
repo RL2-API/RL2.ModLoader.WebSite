@@ -1,7 +1,7 @@
 main {
   display: flex;
   flex-direction: row;
-  width: 100%;
+  width: 100vw;
   min-height: 70vh;
   align-items: flex-start;
   justify-content: center;
@@ -110,4 +110,37 @@ a p {
   width: 25px;
   height: 25px;
   filter: invert(100%);
+}
+
+@media screen {
+  @media (width < 800px) {
+    #persist {
+      width: 90vw;
+      flex-direction: row;
+      justify-content: space-around;
+      padding-top: 20px;
+      margin-bottom: 10px;
+      border: 2px var(--text-color);
+      border-style: solid none solid none;
+      
+      section {
+        width: 30%;
+      }
+    }
+
+    main {
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 20vh;
+    }
+
+    #buttons {
+      display: flex;
+      justify-content: space-around;
+    }
+
+    #selected-data {
+      width: 90vw;
+    }
+  }
 }

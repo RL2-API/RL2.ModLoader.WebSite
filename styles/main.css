@@ -59,7 +59,7 @@ footer {
 }
 
 hr {
-    margin-top: 30px;
+    margin-top: 35px;
     width: 300px;
 }
 
@@ -71,7 +71,7 @@ img {
     width: 600px;
 }
 
-#the-why img {
+img#logo {
     width: 300px;
 }
 
