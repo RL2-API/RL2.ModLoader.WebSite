@@ -7,7 +7,7 @@ main {
   justify-content: center;
   padding: 60px 0px 30px 0px;
   margin: 60px 0px 30px 0px;
-  background: linear-gradient(transparent, var(--background) 50px, var(--background) calc(100% - 50px), transparent);
+  background: linear-gradient(transparent, var(--background) 20px, var(--background) calc(100% - 20px), transparent);
 }
 
 button {
@@ -67,8 +67,8 @@ h2 {
 
 #back {
   position: fixed;
-  left: 10px;
-  top: 10px;
+  left: 30px;
+  top: 30px;
   border-color: transparent;
   outline: none;
   border-radius: 50px;
@@ -122,7 +122,7 @@ a p {
       margin-bottom: 10px;
       border: 2px var(--text-color);
       border-style: solid none solid none;
-      
+    
       section {
         width: 30%;
       }
@@ -131,7 +131,7 @@ a p {
     main {
       flex-direction: column;
       align-items: center;
-      padding-bottom: 20vh;
+      justify-content: flex-start;
     }
 
     #buttons {

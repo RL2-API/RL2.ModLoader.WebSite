@@ -154,8 +154,8 @@ section.pages button:disabled {
 
 #back {
   position: fixed;
-  top: 10px;
-  left: 10px;
+  top: 30px;
+  left: 30px;
   border-radius: 50px;
   width: 40px;
   height: 40px;
