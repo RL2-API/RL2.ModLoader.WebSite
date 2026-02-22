@@ -65,11 +65,9 @@ h2 {
   left: 30px;
   top: 30px;
   border-color: transparent;
-  outline: none;
   border-radius: 50px;
   width: 40px;
   height: 40px;
-  padding: 0px;
 }
 
 a:has(button:disabled) {

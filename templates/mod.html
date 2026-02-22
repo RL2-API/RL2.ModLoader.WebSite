@@ -13,7 +13,7 @@
 {% let changelog = q.changelog.unwrap_or(false) %}
 {% let page = q.p.unwrap_or(1) %}
 {% let filter = q.f.clone().unwrap_or("".to_string()) %}
-<a href="/mods?page={{ page }}&search={{ filter }}"><button id="back">
+<a href="/mods?page={{ page }}&search={{ filter }}" id="back" tabindex="-1"><button id="back">
     <
 </button></a>
 <main>
@@ -37,15 +37,15 @@
 
 <section id="selected-data">
     <section id="buttons">
-        <a href="/mod/{{ name }}?p={{ page }}&f={{ filter }}">
-            <button {% if !changelog %} disabled {% endif %}>
+        <a href="/mod/{{ name }}?p={{ page }}&f={{ filter }}" tabindex="-1">
+            <button {% if !changelog %} disabled tabindex="-1" {% endif %}>
                 Description
             </button>
         </a>
 
 
-        <a href="/mod/{{ name }}?changelog=true&p={{ page }}&f={{ filter }}">
-            <button {% if changelog %} disabled {% endif %}>
+        <a href="/mod/{{ name }}?changelog=true&p={{ page }}&f={{ filter }}" tabindex="-1">
+            <button {% if changelog %} disabled tabindex="-1" {% endif %}>
                 Changelog
             </button>
         </a>
