@@ -10,6 +10,15 @@ main {
   background: linear-gradient(transparent, var(--background) 20px, var(--background) calc(100% - 20px), transparent);
 }
 
+#buttons button {
+  font-size: 22px;
+  padding: 5px 12px;
+}
+
+h3 a.version::before {
+  content: "#";
+}
+
 button:disabled {
   background-color: rgb(100, 50, 0);
 }

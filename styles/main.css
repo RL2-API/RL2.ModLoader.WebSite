@@ -13,7 +13,8 @@ header img {
 
 header button {
     margin-top: 10px;
-    font-size: 23px;
+    font-size: 28px;
+    padding: 6px 16px;
 }
 
 main {

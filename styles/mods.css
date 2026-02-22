@@ -109,14 +109,14 @@ section.pages {
     margin: 0px 0px 40px 0px;
 }
 
-span#page-0 { font-size: 35px; }
+#page-0 { font-size: 35px; }
 
-span#page-1 { font-size: 28px; }
+#page-1 { font-size: 28px; }
 
-span#page-2 { font-size: 21px; }
+#page-2 { font-size: 21px; }
 
 section.pages a:has(button:disabled) {
-    cusrosr: default;
+    cursor: default;
     pointer-events: none;
 }
 
@@ -125,7 +125,14 @@ a {
     color: var(--text-color);
 }
 
-button {
+main button {
+    font-size: 24px;
+    margin-top: 20px;
+    padding: 5px 12px;
+    /* background-color: gray; */
+}
+
+section.pages button {
     width: 32px;
     height: 32px;
     font-size: 18px;

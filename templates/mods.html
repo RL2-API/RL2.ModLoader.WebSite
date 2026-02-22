@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<a href="/"><button id="back">
+<a href="/" id="back"><button id="back" tabindex="-1">
     <
 </button></a>
 <form class="search" autocomplete="on">
@@ -36,13 +36,17 @@
 <main>
 {% if mods.len() == 0 %}
 
-    No mods found...
+    <p>No mods found...</p>
+    
+    <a href="/mods" tabindex="-1">
+        <button> Clear filter </button>
+    </a>
 
 {% else %}
 
     {% for item in mods %}
-        <a href="/mod/{{ item.name }}?p={{ page }}&f={{ filter }}">
-        <article class="mod-entry">
+        <a href="/mod/{{ item.name }}?p={{ page }}&f={{ filter }}" tabindex="-1">
+        <article class="mod-entry" tabindex="0">
             <div class="img-wrapper">
                 <img src="{{ item.icon_src.clone().unwrap_or("/assets/DefaultModIcon-158x158.webp".to_string()) }}"/>
             </div>
@@ -63,14 +67,14 @@
 
 {% if mods.len() < total_count %}
     <section class="pages">
-        <a href="/mods?search={{ filter }}"><button
+        <a href="/mods?search={{ filter }}" tabindex="-1"><button
             {% if page <= 1 %}
-                disabled
+                disabled tabindex="-1"
             {% endif %}
         > |< </button></a>
-        <a href="/mods?search={{ filter }}&page={{ page - 1 }}"><button
+        <a href="/mods?search={{ filter }}&page={{ page - 1 }}" tabindex="-1"><button
             {% if page <= 1 %}
-                disabled
+                disabled tabindex="-1"
             {% endif %}
         > < </button></a>
 
@@ -81,20 +85,20 @@
                     page_num >= 1 &&
                     (total_count + crate::pages::MODS_PER_PAGE) as i64 > page_num * (crate::pages::MODS_PER_PAGE as i64)
             %}
-                <span id="page-{{ i.abs() }}">
+                <a href="/mods?search={{ filter }}&page={{ page_num }}" id="page-{{ i.abs() }}">
                     {{ page_num }}
-                </span>
+                </a>
             {% endif %}
         {% endfor %}
 
-        <a href="/mods?search={{ filter }}&page={{ page + 1 }}"><button
+        <a href="/mods?search={{ filter }}&page={{ page + 1 }}" tabindex="-1"><button
             {% if page * crate::pages::MODS_PER_PAGE >= total_count %}
-                disabled
+                disabled tabindex="-1"
             {% endif %}
         > > </button></a>
-        <a href="/mods?search={{ filter }}&page={{ total_count.div_ceil(crate::pages::MODS_PER_PAGE) }}"><button
+        <a href="/mods?search={{ filter }}&page={{ total_count.div_ceil(crate::pages::MODS_PER_PAGE) }}" tabindex="-1"><button
             {% if page * crate::pages::MODS_PER_PAGE >= total_count %}
-                disabled
+                disabled tabindex="-1"
             {% endif %}
         > >| </button></a>
     </section>

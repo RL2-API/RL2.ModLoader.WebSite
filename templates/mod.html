@@ -45,7 +45,7 @@
 
 
         <a href="/mod/{{ name }}?changelog=true&p={{ page }}&f={{ filter }}">
-            <button {% if changelog %} disabled {% endif %} onload="window.history.replaceState(null);">
+            <button {% if changelog %} disabled {% endif %}>
                 Changelog
             </button>
         </a>
@@ -54,7 +54,11 @@
     {% if changelog %}
         <section id="changelogs">
         {% for entry in versions %}
-            <h3 id="{{ entry.version }}">{{ entry.version }}</h3>
+            <h3 id="{{ entry.version }}">
+                <a class="version" href="/mod/{{ name }}?changelog=true&p={{ page }}&f={{ filter }}#{{ entry.version }}">
+                    {{ entry.version }}
+                </a>
+            </h3>
             {% if entry.changelog != "" %}
                 <p>{{ entry.changelog | safe }}</p>
             {% else %}
