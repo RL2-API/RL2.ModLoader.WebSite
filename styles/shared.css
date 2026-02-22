@@ -11,7 +11,8 @@ html {
 
 body {
     font-size: 22px;
-    background:
+    background-color: var(--background);
+    background-image:
         linear-gradient(var(--bg-darkener), var(--bg-darkener)),
         url(../assets/RL2-TitleBanner-960x540.webp);
     background-repeat: no-repeat;
@@ -26,4 +27,30 @@ body {
     padding: 0px;
     margin: 0px;
     text-align: center;
+}
+
+button {
+    font-size: 15px;
+    border: transparent;
+    background-color: rgb(200, 100, 0);
+    color: var(--text-color);
+    padding: 9px 12px;
+    border-radius: 5px;
+    text-shadow:
+         1px  1px  black,
+         1px -1px  black,
+        -1px  1px  black,
+        -1px -1px  black,
+         1px  0px  black,
+        -1px  0px  black,
+         0px  1px  black,
+         0px -1px  black;
+    cursor: pointer;
+    transition: all ease-in-out .2s;
+    /* background: linear-gradient(90deg, rgb(200, 100, 0), rgb(200, 150, 0)); */
+}
+
+button:hover {
+    background-color: rgb(240, 160, 10);
+    background: linear-gradient(90deg, rgb(200, 100, 0), rgb(200, 150, 0));
 }

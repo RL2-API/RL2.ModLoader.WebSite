@@ -11,18 +11,9 @@ header img {
     width: 800px;
 }
 
-button {
-    font-size: 18px;
-    border: transparent;
-    background-color: rgb(200, 100, 0);
-    color: var(--text-color);
-    padding: 10px 15px;
-    border-radius: 5px;
-    text-shadow:
-         1px  1px  black,
-         1px -1px  black,
-        -1px  1px  black,
-        -1px -1px  black;
+header button {
+    margin-top: 10px;
+    font-size: 23px;
 }
 
 main {

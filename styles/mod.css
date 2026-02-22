@@ -10,20 +10,6 @@ main {
   background: linear-gradient(transparent, var(--background) 20px, var(--background) calc(100% - 20px), transparent);
 }
 
-button {
-    font-size: 15px;
-    border: transparent;
-    background-color: rgb(200, 100, 0);
-    color: var(--text-color);
-    padding: 9px 12px;
-    border-radius: 5px;
-    text-shadow:
-         1px  1px  black,
-         1px -1px  black,
-        -1px  1px  black,
-        -1px -1px  black;
-}
-
 button:disabled {
   background-color: rgb(100, 50, 0);
 }
