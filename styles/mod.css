@@ -13,13 +13,19 @@ main {
 #buttons button {
   font-size: 22px;
   padding: 5px 12px;
+  border-radius: 5px 5px 0px 0px;
+}
+
+#description, #changelogs {
+  border-top: solid rgb(200, 100, 0);
+  padding: 10px;
 }
 
 h3 a.version::before {
   content: "#";
 }
 
-button:disabled {
+button:not(button:disabled) {
   background-color: rgb(100, 50, 0);
 }
 
@@ -84,10 +90,6 @@ a {
 
 a p {
   margin: 0px;
-}
-
-#buttons {
-  margin-bottom: 10px;
 }
 
 .download {
