@@ -28,7 +28,7 @@
             pkgs.rustc 
             pkgs.rust-analyzer 
             pkgs.rustfmt 
-            pkgs.helix
+            pkgs.sqlite pkgs.rlwrap
         ];
         shellHook = ''
           echo "Entered RL2.DB development shell"
