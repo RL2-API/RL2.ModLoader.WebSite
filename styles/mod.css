@@ -25,7 +25,7 @@ h3 a.version::before {
   content: "#";
 }
 
-button:not(button:disabled) {
+button:not(button:disabled):not(#back) {
   background-color: rgb(100, 50, 0);
 }
 
