@@ -4,7 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+{% if let Some(name) = author %}
+    <title>Mods by {{ name }} - RL2.ModLoader</title>
+{% else %}
     <title>Mods - RL2.ModLoader</title>
+{% endif %}
     <link rel="preload" as="image" href="/assets/RL2-TitleBanner-960x540.webp" >
     <link rel="icon" type="image/x-icon" href="/assets/RL2ML-icon.webp">
     <link href="/styles/shared.css" rel="stylesheet">
@@ -12,9 +16,18 @@
 </head>
 <body>
 
-<a href="/" id="back"><button id="back" tabindex="-1">
-    <
-</button></a>
+
+{% if let Some(name) = author %}
+    <a href="/mods" id="back">
+        <button id="back" tabindex="-1"><</button>
+    </a>
+    <h1> Mods by <a href="" class="author">{{ name }}</a> </h1>
+{% else %}
+    <a href="/" id="back">
+        <button id="back" tabindex="-1"><</button>
+    </a>
+{% endif %}
+
 <form class="search" autocomplete="on">
     <input type="text"
         name="search"
@@ -46,36 +59,57 @@
 
 {% else %}
 
-    {% for item in mods %}
-        <a href="/mod/{{ item.name }}?p={{ page }}&f={{ filter }}" tabindex="-1">
-        <article class="mod-entry" tabindex="0">
-            <div class="img-wrapper">
-                <img src="{{ item.icon_src.clone().unwrap_or("/assets/DefaultModIcon-158x158.webp".to_string()) }}"/>
-            </div>
+{% for item in mods %}
+    <article class="mod-container">
+
+        {% let link %}
+        {% let p = page %}
+        {% let f = filter %}
+        {% if let Some(author_name) = author %}
+            {% set link = format!("/author/{}/{}?p={}&f={}", author_name, item.name, p, f) %}
+        {% else %}
+             {% set link = format!("/mod/{}?p={}&f={}", item.name, p, f) %}
+        {% endif %}
+
+        <a class="mod-entry" href="{{ link }}" tabindex="0">
+        </a>
+        <section class="mod-entry" tabindex="-1">
+            <a href="{{ link }}">
+                <div class="img-wrapper">
+                    <img class="mod-icon" src="{{ item.icon_src.clone().unwrap_or("/assets/DefaultModIcon-158x158.webp".to_string()) }}"/>
+                </div>
+            </a>
             <section>
                 <section class="title">
                     <p>
                         <b>{{ item.name }}</b>
-                        <p>by&nbsp;</p>
-                        <i class="author">{{ item.author }}</i>
+                        <i>by&nbsp;</i>
+                        <a href="/author/{{ item.author }}" class="author">{{ item.author }}</a>
                     </p>
                 </section>
-                <p>{{ item.short_desc }}</p>
+                <a href="{{ link }}">{{ item.short_desc }}</a>
             </section>
-        </article>
-        </a>
-    {% endfor %}
+        </section>
+    </article>
+{% endfor %}
 {% endif %}
 </main>
 
+{% let base_link %}
+{% if let Some(name) = author %}
+    {% let base_link = format!("/author/{}", name) %}
+{% else %}
+    {% let base_link = format!("/mods") %}
+{% endif %}
+
 {% if mods.len() < total_count %}
     <section class="pages">
-        <a href="/mods?search={{ filter }}" tabindex="-1"><button
+        <a href="{{ base_link }}?search={{ filter }}" tabindex="-1"><button
             {% if page <= 1 %}
                 disabled tabindex="-1"
             {% endif %}
         > |< </button></a>
-        <a href="/mods?search={{ filter }}&page={{ page - 1 }}" tabindex="-1"><button
+        <a href="{{ base_link }}?search={{ filter }}&page={{ page - 1 }}" tabindex="-1"><button
             {% if page <= 1 %}
                 disabled tabindex="-1"
             {% endif %}
@@ -88,18 +122,18 @@
                     page_num >= 1 &&
                     (total_count + crate::pages::MODS_PER_PAGE) as i64 > page_num * (crate::pages::MODS_PER_PAGE as i64)
             %}
-                <a href="/mods?search={{ filter }}&page={{ page_num }}" id="page-{{ i.abs() }}">
+                <a href="{{ base_link }}?search={{ filter }}&page={{ page_num }}" id="page-{{ i.abs() }}">
                     {{ page_num }}
                 </a>
             {% endif %}
         {% endfor %}
 
-        <a href="/mods?search={{ filter }}&page={{ page + 1 }}" tabindex="-1"><button
+        <a href="{{ base_link }}?search={{ filter }}&page={{ page + 1 }}" tabindex="-1"><button
             {% if page * crate::pages::MODS_PER_PAGE >= total_count %}
                 disabled tabindex="-1"
             {% endif %}
         > > </button></a>
-        <a href="/mods?search={{ filter }}&page={{ total_count.div_ceil(crate::pages::MODS_PER_PAGE) }}" tabindex="-1"><button
+        <a href="{{ base_link }}?search={{ filter }}&page={{ total_count.div_ceil(crate::pages::MODS_PER_PAGE) }}" tabindex="-1"><button
             {% if page * crate::pages::MODS_PER_PAGE >= total_count %}
                 disabled tabindex="-1"
             {% endif %}

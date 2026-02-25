@@ -13,6 +13,7 @@ pub struct ModList {
     total_count: usize,
     filter: String,
     page: usize,
+    author: Option<String>,
 }
 
 #[derive(serde::Deserialize)]
@@ -23,20 +24,23 @@ pub struct Search {
 
 impl ModList {
     pub async fn get(
+        author: Option<String>,
         state: axum::extract::State<std::sync::Arc<crate::app::State>>,
         query: axum::extract::Query<Search>,
     ) -> Result<axum::response::Html<String>, axum::http::StatusCode> {
         println!(
-            "{} GET /mods?search={}&page={}",
+            "{} GET /mods?search={}&page={}  author: '{}'",
             get_time(),
             query.search.clone().unwrap_or("".to_owned()),
-            query.page.unwrap_or(0)
+            query.page.unwrap_or(1),
+            author.clone().unwrap_or_default()
         );
 
         let mods: std::vec::Vec<ModListData> = match (match query.search.clone() {
             None => sqlx::query_as(MOD_LIST_FULL),
             Some(filter) => sqlx::query_as(MOD_LIST_FILTERED).bind(format!("{}%", filter)),
         })
+        .bind(format!("{}", author.clone().unwrap_or("%".to_owned())))
         .persistent(true)
         .fetch_all(&*state.database)
         .await
@@ -63,6 +67,7 @@ impl ModList {
             total_count: mods.len(),
             filter: query.search.clone().unwrap_or("".to_owned()),
             page,
+            author,
         }) {
             Ok(html) => html,
             Err(_) => return Err(axum::http::StatusCode::INTERNAL_SERVER_ERROR),
@@ -78,6 +83,7 @@ pub struct Mod {
     info: ModData,
     versions: Vec<Version>,
     q: ModQuery,
+    author: bool,
 }
 
 #[derive(sqlx::FromRow)]
@@ -103,6 +109,7 @@ pub struct ModQuery {
 
 impl Mod {
     pub async fn get(
+        author: bool,
         axum::extract::Path(name): axum::extract::Path<String>,
         state: axum::extract::State<std::sync::Arc<crate::app::State>>,
         axum::extract::Query(query): axum::extract::Query<ModQuery>,
@@ -112,7 +119,7 @@ impl Mod {
             "{} GET /mod/{}?changelog={}",
             get_time(),
             name.clone(),
-            changelog
+            changelog,
         );
 
         let info: ModData = match sqlx::query_as(
@@ -169,6 +176,7 @@ impl Mod {
             info,
             versions,
             q: query,
+            author,
         }) {
             Ok(html) => html,
             Err(_) => return Err(axum::http::StatusCode::INTERNAL_SERVER_ERROR),
@@ -183,6 +191,7 @@ pub const RELOAD_ON_INPUT: bool = false;
 const MOD_LIST_FULL: &'static str = "
     SELECT info.name, info.icon_src, info.author, info.short_desc
     FROM info INNER JOIN versions ON info.name = versions.name
+    WHERE info.author LIKE ?
     GROUP BY info.name
     ORDER BY MAX(versions.id) DESC
 ";
@@ -190,7 +199,7 @@ const MOD_LIST_FULL: &'static str = "
 const MOD_LIST_FILTERED: &'static str = r#"
     SELECT info.name, info.icon_src, info.author, info.short_desc
     FROM info INNER JOIN versions ON info.name = versions.name
-    WHERE info.name LIKE ?
+    WHERE info.name LIKE ? AND info.author LIKE ?
     GROUP BY info.name
     ORDER BY MAX(versions.id) DESC
 "#;

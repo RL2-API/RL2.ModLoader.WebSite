@@ -15,15 +15,23 @@
 {% let changelog = q.changelog.unwrap_or(false) %}
 {% let page = q.p.unwrap_or(1) %}
 {% let filter = q.f.clone().unwrap_or("".to_string()) %}
-<a href="/mods?page={{ page }}&search={{ filter }}" id="back" tabindex="-1"><button id="back">
-    <
-</button></a>
+
+{% if author %}
+    <a href="/author/{{ info.author }}?page={{ page }}&search={{ filter }}" id="back" tabindex="-1"><button id="back">
+        <
+    </button></a>
+{% else %}
+    <a href="/mods?page={{ page }}&search={{ filter }}" id="back" tabindex="-1"><button id="back">
+        <
+    </button></a>
+{% endif%}
+
 <main>
 <section id="persist">
     <section id="mod-info">
         <img src="{{ info.icon_src.clone().unwrap_or("/assets/DefaultModIcon-158x158.webp".to_string()) }}" />
         <h1>{{ name }}</h1>
-        <h2>{{ info.author }}</h2>
+        <h2><a href="/author/{{ info.author }}" class="author">{{ info.author }}</a></h2>
     </section>
 
     <section id="versions">
@@ -39,14 +47,14 @@
 
 <section id="selected-data">
     <section id="buttons">
-        <a href="/mod/{{ name }}?p={{ page }}&f={{ filter }}" tabindex="-1">
+        <a href="/mod/{{ name }}?p={{ page }}&f={{ filter }}&a={{ author }}" tabindex="-1">
             <button {% if !changelog %} disabled tabindex="-1" {% endif %}>
                 Description
             </button>
         </a>
 
 
-        <a href="/mod/{{ name }}?changelog=true&p={{ page }}&f={{ filter }}" tabindex="-1">
+        <a href="/mod/{{ name }}?changelog=true&p={{ page }}&f={{ filter }}&a={{ author }}" tabindex="-1">
             <button {% if changelog %} disabled tabindex="-1" {% endif %}>
                 Changelog
             </button>
@@ -57,7 +65,7 @@
         <section id="changelogs">
         {% for entry in versions %}
             <h3 id="{{ entry.version }}">
-                <a class="version" href="/mod/{{ name }}?changelog=true&p={{ page }}&f={{ filter }}#{{ entry.version }}">
+                <a class="version" href="/mod/{{ name }}?changelog=true&p={{ page }}&f={{ filter }}&a={{ author }}#{{ entry.version }}">
                     {{ entry.version }}
                 </a>
             </h3>

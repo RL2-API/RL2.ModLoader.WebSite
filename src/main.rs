@@ -35,8 +35,44 @@ async fn main() -> Result<(), app::Error<'static>> {
 
     let router = axum::Router::new()
         .route_service("/", ServeFile::new("static/index.html"))
-        .route("/mods", get(pages::ModList::get))
-        .route("/mod/{name}", get(pages::Mod::get))
+        .route("/mods", get(move |
+              state: axum::extract::State<std::sync::Arc<app::State>>,
+              query: axum::extract::Query<pages::Search>| {
+            pages::ModList::get(None, state, query)
+        }))
+        .route(
+            "/mod/{name}",
+            get(
+                move |name: axum::extract::Path<String>,
+                      state: axum::extract::State<std::sync::Arc<app::State>>,
+                      query: axum::extract::Query<pages::ModQuery>| {
+                    pages::Mod::get(false, name, state, query)
+                },
+            ),
+        )
+        .nest(
+            "/author",
+            axum::Router::new()
+                .route(
+                    "/{author}/{name}",
+                    get(
+                        move |name: axum::extract::Path<(String, String)>,
+                              state: axum::extract::State<std::sync::Arc<app::State>>,
+                              query: axum::extract::Query<pages::ModQuery>| {
+                            pages::Mod::get(true, axum::extract::Path(name.1.clone()), state, query)
+                        },
+                    ),
+                )
+                .route("/{author}",
+                     get(
+                        move |axum::extract::Path(author): axum::extract::Path<String>,
+                              state: axum::extract::State<std::sync::Arc<app::State>>,
+                              query: axum::extract::Query<pages::Search>| {
+                            pages::ModList::get(Some(author), state, query)
+                        },
+                    ),
+                )
+        )
         .nest(
             "/api",
             axum::Router::new()

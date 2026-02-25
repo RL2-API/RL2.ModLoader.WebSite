@@ -50,7 +50,21 @@ form.search button img {
     filter: invert(100%);
 }
 
-article.mod-entry {
+.mod-container {
+    display: grid;
+}
+
+a.mod-entry {
+    background-color: transparent;
+    z-index: 1;
+}
+
+a.mod-entry:hover {
+    /* background-color: transparent; */
+}
+
+.mod-entry {
+    grid-area: 1/1;
     width: min(1000px, 90vw);
     height: 150px;
     display: flex;
@@ -62,21 +76,23 @@ article.mod-entry {
     text-align: left;
 }
 
-article.mod-entry:hover {
+.mod-entry:hover {
     background: #2C1C1C;
 }
 
-article.mod-entry section {
+.mod-entry section {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-article.mod-entry section * {
+.mod-entry section *:not(div:not(.img-wrapper)):not(section) {
+    z-index: 2;
+    position: relative;
     margin: 0px;
 }
 
-article.mod-entry div.img-wrapper {
+.mod-entry div.img-wrapper {
     width: 150px;
     height: 150px;
     display: flex;
@@ -84,13 +100,15 @@ article.mod-entry div.img-wrapper {
     justify-content: center;
 }
 
-article.mod-entry div.img-wrapper img {
+img.mod-icon {
     padding: 30px;
     height: calc(100% - 30px);
     border-radius: 50px;
+    position: relative;
+    z-index: 2;
 }
 
-article.mod-entry section.title {
+.mod-entry section.title {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -154,4 +172,12 @@ section.pages button:disabled {
   border-radius: 50px;
   width: 40px;
   height: 40px;
+}
+
+a.author {
+    text-decoration: none;
+    background: linear-gradient(90deg, rgb(200, 100, 0), rgb(200, 150, 0));
+    -webkit-background-clip: text;
+    color: transparent;
+    position: relative;
 }
