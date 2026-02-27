@@ -28,13 +28,23 @@ impl ModList {
         state: axum::extract::State<std::sync::Arc<crate::app::State>>,
         query: axum::extract::Query<Search>,
     ) -> Result<axum::response::Html<String>, axum::http::StatusCode> {
-        println!(
-            "{} GET /mods?search={}&page={}  author: '{}'",
-            get_time(),
-            query.search.clone().unwrap_or("".to_owned()),
-            query.page.unwrap_or(1),
-            author.clone().unwrap_or_default()
-        );
+        if let Some(name) = author.clone() {
+            println!(
+                "{} GET /author/{:<32}\tsearch={}\tpage={}",
+                get_time(),
+                name,
+                query.search.clone().unwrap_or_default(),
+                query.page.clone().unwrap_or_default()
+            )
+        } else {
+            println!(
+                "{} GET /mods{:<32}\tsearch={}\tpage={}",
+                get_time(),
+                "",
+                query.search.clone().unwrap_or("".to_owned()),
+                query.page.unwrap_or(1),
+            );
+        }
 
         let mods: std::vec::Vec<ModListData> = match (match query.search.clone() {
             None => sqlx::query_as(MOD_LIST_FULL),
@@ -115,12 +125,6 @@ impl Mod {
         axum::extract::Query(query): axum::extract::Query<ModQuery>,
     ) -> Result<axum::response::Html<String>, axum::http::StatusCode> {
         let changelog = query.changelog.unwrap_or(false);
-        println!(
-            "{} GET /mod/{}?changelog={}",
-            get_time(),
-            name.clone(),
-            changelog,
-        );
 
         let info: ModData = match sqlx::query_as(
             "
@@ -140,6 +144,22 @@ impl Mod {
                 return Err(axum::http::StatusCode::INTERNAL_SERVER_ERROR);
             }
         };
+
+        if author {
+            println!(
+                "{} GET /author/{:<32}\tchangelog={}",
+                get_time(),
+                format!("{}/{}", info.author, name.clone()),
+                changelog,
+            );
+        } else {
+            println!(
+                "{} GET /mod/{:<32}\tchangelog={}",
+                get_time(),
+                name.clone(),
+                changelog,
+            );
+        }
 
         let versions: Vec<Version> = match sqlx::query_as(
             "
@@ -213,5 +233,5 @@ pub fn get_time() -> String {
         / 3600.0;
     let hours = current_time.floor();
     let minutes = ((current_time - hours) * 60.0).floor();
-    format!("[{:?}:{:?}]", hours as u64, minutes as u64)
+    format!("[{:?}:{:0>2}]", hours as u64, minutes as u64)
 }
