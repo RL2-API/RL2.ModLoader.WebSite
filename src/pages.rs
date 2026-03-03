@@ -233,5 +233,5 @@ pub fn get_time() -> String {
         / 3600.0;
     let hours = current_time.floor();
     let minutes = ((current_time - hours) * 60.0).floor();
-    format!("[{:?}:{:0>2}]", hours as u64, minutes as u64)
+    format!("[{:0:>2}:{:0>2}]", hours as u64, minutes as u64)
 }
