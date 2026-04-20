@@ -60,7 +60,7 @@
 {% else %}
 
 {% for item in mods %}
-    <article class="mod-container">
+    <article class="mod-container" tabindex="-1">
 
         {% let link %}
         {% let p = page %}
@@ -74,7 +74,7 @@
         <a class="mod-entry" href="{{ link }}" tabindex="0">
         </a>
         <section class="mod-entry" tabindex="-1">
-            <a href="{{ link }}">
+            <a href="{{ link }}" tabindex="-1">
                 <div class="img-wrapper">
                     <img class="mod-icon" src="{{ item.icon_src.clone().unwrap_or("/assets/DefaultModIcon-158x158.webp".to_string()) }}"/>
                 </div>
@@ -87,7 +87,7 @@
                         <a href="/author/{{ item.author }}" class="author">{{ item.author }}</a>
                     </p>
                 </section>
-                <a href="{{ link }}">{{ item.short_desc }}</a>
+                <a href="{{ link }}" tabindex="-1">{{ item.short_desc }}</a>
             </section>
         </section>
     </article>
