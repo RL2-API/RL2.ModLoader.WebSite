@@ -12,7 +12,7 @@
     forEachSystem = func: lib.foldAttrs (item: acc: item // acc) {} (lib.map func systems);
   in forEachSystem (system: let
       pkgs = unstable.legacyPackages.${system};
-    in {
+    in lib.recursiveUpdate {
       packages.${system} = rec {
         default = rl2db;
       
@@ -33,6 +33,16 @@
         shellHook = ''
           echo "Entered RL2.DB development shell"
         '';
+      };
+    } {
+      packages.mips.default = let pkgs = import unstable {
+        system = "x86_64-linux";
+        crossSystem = { config = "mipsel-unknown-linux-musl"; };
+      }; in pkgs.rustPlatform.buildRustPackage {
+          inherit (manifest.package) name version;
+          src = lib.cleanSource ./.;
+          cargoLock.lockFile = ./Cargo.lock;
+          env.RUSTFLAGS = "-C target-feature=+crt-static";
       };
     }
   );
