@@ -31,6 +31,7 @@
             mkdir -p $out
             cp -r assets $out
             cp -r static $out
+            cp -r styles $out
             cp mods.db $out
           '';
         };
