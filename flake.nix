@@ -33,7 +33,7 @@
             cp -r static $out
             cp mods.db $out
           '';
-        }
+        };
       };
       devShell.${system} = pkgs.mkShell {
         buildInputs = [ 
