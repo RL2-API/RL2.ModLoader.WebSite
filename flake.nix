@@ -21,6 +21,19 @@
           src = lib.cleanSource ./.;
           cargoLock.lockFile = ./Cargo.lock;
         };
+
+        data = pkgs.stdenvNoCC.mkDerivation {
+          name = "rl2db-data";
+          src = lib.cleanSource ./.;
+          version = rl2db.version;
+
+          buildPhase = ''
+            mkdir -p $out
+            cp -r assets $out
+            cp -r static $out
+            cp mods.db $out
+          '';
+        }
       };
       devShell.${system} = pkgs.mkShell {
         buildInputs = [ 
