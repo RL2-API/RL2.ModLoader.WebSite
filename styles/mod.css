@@ -16,16 +16,29 @@ main {
   border-radius: 5px 5px 0px 0px;
 }
 
+#buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 #description, #changelogs {
   border-top: solid rgb(200, 100, 0);
   padding: 10px;
+}
+
+#delete-mod {
+  font-size: 22px;
+  padding: 5px 12px;
+  border-radius: 10px;
+  background-color: #9e1616;
 }
 
 h3 a.version::before {
   content: "#";
 }
 
-button:not(button:disabled):not(#back) {
+button:not(button:disabled):not(#back):not(.active) {
   background-color: rgb(100, 50, 0);
 }
 
@@ -77,7 +90,7 @@ h2 {
 }
 
 a:has(button:disabled) {
-  cusrosr: default;
+  cursor: default;
   pointer-events: none;
 }
 
@@ -138,4 +151,11 @@ a p {
       width: 90vw;
     }
   }
+}
+
+button#new-version {
+  margin-top: 5px;
+  width: 90%;
+  height: 1.75em;
+  font-size: 20px;
 }

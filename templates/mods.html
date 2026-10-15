@@ -16,7 +16,6 @@
 </head>
 <body>
 
-
 {% if let Some(name) = author %}
     <a href="/mods" id="back">
         <button id="back" tabindex="-1"><</button>
@@ -27,6 +26,8 @@
         <button id="back" tabindex="-1"><</button>
     </a>
 {% endif %}
+
+<button command="show-modal" commandfor="create-mod" id="add-mod">Add</button>
 
 <form class="search" autocomplete="on">
     <input type="text"
@@ -140,6 +141,21 @@
         > >| </button></a>
     </section>
 {% endif %}
+
+<!-- Dialogs -->
+<dialog id="create-mod">
+    <form action="/new-mod" method="get">
+        <label>Author:</label>
+        <input type="text" required name="author" id="author" /> <br />
+        <label>Name:</label>
+        <input type="text" required name="name" id="name" /> <br />
+        <label>Download link:</label>
+        <input type="url" required name="download" id="download" /> <br />
+        <label>Description:</label> <br />
+        <input type="text" required name="description" id="description" placeholder="Short..." maxlength="100"/> <br />
+        <button type="submit" >Submit</button>
+    </form>
+</dialog>
 
 </body>
 </html>

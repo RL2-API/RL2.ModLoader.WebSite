@@ -103,7 +103,7 @@ pub struct ModData {
     long_desc: String,
 }
 
-#[derive(sqlx::FromRow)]
+#[derive(sqlx::FromRow, serde::Deserialize)]
 pub struct Version {
     link: String,
     version: String,
@@ -118,6 +118,52 @@ pub struct ModQuery {
 }
 
 impl Mod {
+    pub async fn delete(
+        axum::extract::Path(mod_name): axum::extract::Path<String>,
+        state: axum::extract::State<std::sync::Arc<crate::app::State>>,
+    ) -> Result<axum::response::Redirect, axum::http::StatusCode> {
+        let name = mod_name.as_str();
+
+        match sqlx::query(
+            "
+                SELECT author, icon_src, long_desc
+                FROM info
+                WHERE name LIKE ?
+            ",
+        )
+        .bind(name)
+        .persistent(true)
+        .fetch_one(&*state.database)
+        .await
+        {
+            Err(_) => {
+                return Err(axum::http::StatusCode::FORBIDDEN);
+            }
+            Ok(_) => {}
+        };
+
+        match sqlx::query(
+            "
+                DELETE FROM info
+                WHERE name LIKE ?;
+                DELETE FROM versions
+                WHERE name LIKE ?;
+            "
+        )
+        .bind(name)
+        .bind(name)
+        .execute(&*state.database)
+        .await {
+            Err(_) => {
+                return Err(axum::http::StatusCode::INTERNAL_SERVER_ERROR);
+            }
+            Ok(_) => {}
+        }
+        
+        
+        Ok(axum::response::Redirect::to("/mods"))
+    }
+    
     pub async fn get(
         author: bool,
         axum::extract::Path(name): axum::extract::Path<String>,
@@ -202,6 +248,131 @@ impl Mod {
             Err(_) => return Err(axum::http::StatusCode::INTERNAL_SERVER_ERROR),
         };
         Ok(axum::response::Html::from(contents))
+    }
+}
+
+#[derive(serde::Deserialize)]
+pub struct NewMod {
+    author: String,
+    name: String,
+    download: String,
+    description: String,
+}
+
+impl NewMod {
+    pub async fn post(
+        state: axum::extract::State<std::sync::Arc<crate::app::State>>,
+        axum::extract::Query(query): axum::extract::Query<NewMod>,
+    ) -> Result<axum::response::Redirect, axum::http::StatusCode> {
+        let name = query.name.as_str();
+        let desc = query.description.as_str();
+        let author = query.author.as_str();
+        let link = query.download.as_str();
+
+        match sqlx::query(
+            "
+                SELECT author, icon_src, long_desc
+                FROM info
+                WHERE name LIKE ?
+            ",
+        )
+        .bind(name)
+        .persistent(true)
+        .fetch_one(&*state.database)
+        .await
+        {
+            Err(_) => {}
+            Ok(_) => {
+                return Err(axum::http::StatusCode::FORBIDDEN);
+            }
+        };
+
+        match sqlx::query(
+            "
+            INSERT INTO info (name, author, short_desc, long_desc, icon_src) VALUES (?, ?, ?, ?, ?); 
+            INSERT INTO versions (name, link, version, changelog) VALUES (?, ?, ?, ?); 
+            ",
+        )
+        // info
+        .bind(name)
+        .bind(author)
+        .bind(desc)
+        .bind(desc)
+        .bind(Option::<String>::None)
+        // versions
+        .bind(name)
+        .bind(link)
+        .bind("1.0.0")
+        .bind("*Initial release*")
+        .execute(&*state.database)
+        .await
+        {
+            Ok(_) => {}
+            Err(e) => {
+                println!("Database error in '/mod/{}': {}", name, e);
+                return Err(axum::http::StatusCode::INTERNAL_SERVER_ERROR);
+            }
+        };
+
+        Ok(axum::response::Redirect::to(
+            format!("/mod/{}", name).as_str(),
+        ))
+    }
+}
+
+impl Version {
+    pub async fn post(
+        axum::extract::Path(mod_name): axum::extract::Path<String>,
+        state: axum::extract::State<std::sync::Arc<crate::app::State>>,
+        axum::extract::Query(query): axum::extract::Query<Version>,
+    ) -> Result<axum::response::Redirect, axum::http::StatusCode> {
+        let version = query.version.as_str();
+        let link = query.link.as_str();
+        let changelog = query.changelog.as_str();
+        let name = mod_name.as_str();
+
+        // Return 404 if mod doesn't exist
+        match sqlx::query(
+            "
+                SELECT author, icon_src, long_desc
+                FROM info
+                WHERE name LIKE ?
+            ",
+        )
+        .bind(name)
+        .persistent(true)
+        .fetch_one(&*state.database)
+        .await
+        {
+            Ok(_) => {}
+            Err(e) => {
+                eprintln!("{}", e);
+                return Err(axum::http::StatusCode::NOT_FOUND);
+            }
+        };
+
+        match sqlx::query(
+            "
+            INSERT INTO versions (name, link, version, changelog) VALUES (?, ?, ?, ?); 
+            ",
+        )
+        .bind(name)
+        .bind(link)
+        .bind(version)
+        .bind(changelog)
+        .execute(&*state.database)
+        .await
+        {
+            Ok(_) => {}
+            Err(e) => {
+                println!("Database error in '/mod/{}': {}", name, e);
+                return Err(axum::http::StatusCode::INTERNAL_SERVER_ERROR);
+            }
+        };
+
+        Ok(axum::response::Redirect::to(
+            format!("/mod/{}", name).as_str(),
+        ))
     }
 }
 

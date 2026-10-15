@@ -50,6 +50,28 @@ async fn main() -> Result<(), app::Error<'static>> {
                 },
             ),
         )
+        .route(
+            "/mod/{name}/add-version",
+            get(move |
+                name: axum::extract::Path<String>,
+                state: axum::extract::State<std::sync::Arc<app::State>>,
+                query: axum::extract::Query<pages::Version>
+            | pages::Version::post(name, state, query)
+        ))
+        .route(
+            "/mod/{name}/delete",
+            axum::routing::post(move |
+                name: axum::extract::Path<String>,
+                state: axum::extract::State<std::sync::Arc<app::State>>
+            | pages::Mod::delete(name, state)
+        ))
+        .route(
+            "/new-mod",
+            get(move |
+                state: axum::extract::State<std::sync::Arc<app::State>>,
+                query: axum::extract::Query<pages::NewMod>
+            | pages::NewMod::post(state, query)
+        ))
         .nest(
             "/author",
             axum::Router::new()

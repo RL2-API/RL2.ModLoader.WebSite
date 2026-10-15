@@ -51,23 +51,25 @@
             </a>
         </article>
         {% endfor %}
+        <button command="show-modal" commandfor="new-version-dialog" class="active" id="new-version">New</button>
     </section>
 </section>
 
 <section id="selected-data">
     <section id="buttons">
-        <a href="{{ link }}?p={{ page }}&f={{ filter }}" tabindex="-1">
-            <button {% if !changelog %} disabled tabindex="-1" {% endif %}>
-                Description
-            </button>
-        </a>
+        <div>
+            <a href="{{ link }}?p={{ page }}&f={{ filter }}" tabindex="-1">
+                <button {% if !changelog %} disabled tabindex="-1" {% endif %}>
+                    Description
+                </button>
+            </a>
 
-
-        <a href="{{ link }}?changelog=true&p={{ page }}&f={{ filter }}" tabindex="-1">
-            <button {% if changelog %} disabled tabindex="-1" {% endif %}>
-                Changelog
-            </button>
-        </a>
+            <a href="{{ link }}?changelog=true&p={{ page }}&f={{ filter }}" tabindex="-1">
+                <button {% if changelog %} disabled tabindex="-1" {% endif %}>
+                    Changelog
+                </button>
+            </a>
+        </div>
     </section>
 
     {% if changelog %}
@@ -91,8 +93,29 @@
         </section>
     {% endif %}
 </section>
+<button command="show-modal" commandfor="delete-mod-dialog" id="delete-mod" class="active">Delete</button>
 
 </main>
+
+<dialog closedby="none" id="new-version-dialog">
+    <form action="/mod/{{ name }}/add-version" method="get">
+        <label>Version:</label>
+        <input type="text" required name="version" pattern="[0-9]*\.[0-9]*\.[0-9]*" placeholder="MAJOR.MINOR.PATCH"/> <br />
+        <label>Download link:</label>
+        <input type="url" required name="link" /> <br />
+        <label>Changelog:</label> <br />
+        <textarea required name="changelog" placeholder="Short..." rows="10" cols="60"></textarea> <br />
+        <button type="submit" class="active">Submit</button>
+    </form>
+</dialog>
+
+<dialog id="delete-mod-dialog">
+    <h1>Are you sure?</h1>
+    <form action="/mod/{{ name }}/delete" method="post">
+        <input type="submit" value="Yes" />
+        <input onclick="this.parentElement.parentElement.close()" type="button" value="No" />
+    </form>
+</dialog>
 
 </body>
 </html>

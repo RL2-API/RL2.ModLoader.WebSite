@@ -54,3 +54,8 @@ button:hover {
     background-color: rgb(240, 160, 10);
     /* background: linear-gradient(90deg, rgb(200, 100, 0), rgb(200, 150, 0)); */
 }
+
+dialog form {
+    display: flex;
+    flex-direction: column;
+}
